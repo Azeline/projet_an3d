@@ -1,15 +1,15 @@
-#version 330 core 
+#version 330 core
 
 // Fragment shader - this code is executed for every pixel/fragment that belongs to a displayed shape
 //
-// Compute the color using Phong illumination (ambient, diffuse, specular) 
+// Compute the color using Phong illumination (ambient, diffuse, specular)
 //  There is 3 possible input colors:
 //    - fragment_data.color: the per-vertex color defined in the mesh
 //    - material.color: the uniform color (constant for the whole shape)
 //    - image_texture: color coming from the texture image
 //  The color considered is the product of: fragment_data.color x material.color x image_texture
 //  The alpha (/transparent) channel is obtained as the product of: material.alpha x image_texture.a
-// 
+//
 
 // Inputs coming from the vertex shader
 in struct fragment_data
@@ -37,7 +37,7 @@ uniform vec3 light; // position of the light
 
 // Coefficients of phong illumination model
 struct phong_structure {
-	float ambient;      
+	float ambient;
 	float diffuse;
 	float specular;
 	float specular_exponent;
@@ -58,7 +58,7 @@ struct material_structure
 
 	phong_structure phong;                       // Phong coefficients
 	texture_settings_structure texture_settings; // Additional settings for the texture
-}; 
+};
 
 uniform material_structure material;
 
@@ -111,7 +111,7 @@ void main()
 	if(material.texture_settings.use_texture == false) {
 		color_image_texture=vec4(1.0,1.0,1.0,1.0);
 	}
-	
+
 	// Compute Shading
 	// *************************************** //
 
@@ -123,7 +123,7 @@ void main()
 	float Kd = material.phong.diffuse;
 	float Ks = material.phong.specular;
 	vec3 color_shading = (Ka + Kd * diffuse_component) * color_object + Ks * specular_component * vec3(1.0, 1.0, 1.0);
-	
+
 	// Output color, with the alpha component
 	FragColor = vec4(color_shading, material.alpha * color_image_texture.a);
 }
