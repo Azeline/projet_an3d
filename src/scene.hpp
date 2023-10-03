@@ -1,8 +1,6 @@
 #pragma once
 
-#include "cgp/cgp.hpp"
-#include "environment.hpp"
-#include "my_mesh_primitive.hpp"
+#include "penguin.hpp"
 
 // This definitions allow to use the structures: mesh, mesh_drawable, etc.
 // without mentionning explicitly cgp::

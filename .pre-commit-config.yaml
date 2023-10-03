@@ -14,7 +14,7 @@ repos:
     rev: v1.3.5
     hooks:
       - id: clang-format
-        args: [ -i, --style=Google ]
+        args: [ -i, --style=Google, --line-length=250 ]
         types_or: [ c++ ]
 
   - repo: https://github.com/cheshirekow/cmake-format-precommit
