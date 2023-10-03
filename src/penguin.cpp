@@ -56,7 +56,7 @@ void create_penguin(cgp::hierarchy_mesh_drawable &hierarchy) {
   head1.texture.load_and_initialize_texture_2d_on_gpu("../assets/pinguin2.png");
   head2.texture.load_and_initialize_texture_2d_on_gpu("../assets/pinguin_head.png");
 
-  hierarchy.add(body1, "Body1");
+  hierarchy.add(body1, "Body1", "Floor1", { 0,0,0.8f });
   hierarchy.add(body2, "Body2", "Body1", { 0,-0.25f,0.5f });
   hierarchy.add(head1, "Head1", "Body2", { 0,0,0.12f });
   hierarchy.add(head2, "Head2", "Head1", { 0,-0.08f,0.16f });

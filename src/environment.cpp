@@ -5,7 +5,7 @@ float project::gui_scale = 1.5f;
 
 environment_structure::environment_structure() {
   background_color = {1, 1, 1};
-  light = {1, 1, 1};
+  light = {1, 1, 50};
 }
 
 void environment_structure::send_opengl_uniform(
