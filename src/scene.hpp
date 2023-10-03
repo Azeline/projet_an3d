@@ -1,6 +1,7 @@
 #pragma once
 
 #include "penguin.hpp"
+#include "simulation/simulation.hpp"
 
 // This definitions allow to use the structures: mesh, mesh_drawable, etc.
 // without mentionning explicitly cgp::
@@ -14,6 +15,9 @@ using cgp::vec3;
 struct gui_parameters {
   bool display_frame = true;
   bool display_wireframe = false;
+  bool display_color = true;
+  bool display_particles = true;
+  bool display_radius = false;
 };
 
 // The structure of the custom scene
@@ -39,6 +43,14 @@ struct scene_structure : cgp::scene_inputs_generic {
   // Timer used for the animation
   timer_basic timer;
 
+    sph_parameters_structure sph_parameters; // Physical parameter related to SPH
+    cgp::numarray<particle_element> particles;      // Storage of the particles
+    cgp::mesh_drawable sphere_particle; // Sphere used to display a particle
+    cgp::curve_drawable curve_visual;   // Circle used to display the radius h of influence
+
+    cgp::grid_2D<cgp::vec3> field;      // grid used to represent the volume of the fluid under the particles
+    cgp::mesh_drawable field_quad; // quad used to display this field color
+
   // The entire hierarchy
   cgp::hierarchy_mesh_drawable hierarchy;
 
@@ -52,6 +64,7 @@ struct scene_structure : cgp::scene_inputs_generic {
   display_frame();  // The frame display to be called within the animation loop
   void display_gui();  // The display of the GUI, also called within the
                        // animation loop
+  void initialize_sph();
 
   void mouse_move_event();
   void mouse_click_event();
