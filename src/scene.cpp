@@ -13,32 +13,14 @@ void scene_structure::initialize() {
 
   global_frame.initialize_data_on_gpu(mesh_primitive_frame());
 
-  mesh_drawable floor1;
-  mesh_drawable floor2;
-  mesh_drawable floor3;
-  
-  auto size_ice1 = 20;
-  auto size_ice2 = 4;
-  auto size_ice3 = 8;
-  auto height = -1;
-  floor1.initialize_data_on_gpu(mesh_primitive_cubic_grid({ -size_ice1,-size_ice1,0 }, { -size_ice1,size_ice1,0 }, { size_ice1,size_ice1,0 }, { size_ice1,-size_ice1,0 }, { -size_ice1,-size_ice1,height }, { -size_ice1,size_ice1,height }, { size_ice1,size_ice1,height }, { size_ice1,-size_ice1,height }));
-  floor2.initialize_data_on_gpu(mesh_primitive_cubic_grid({ -9,-size_ice2/2.f,0 }, { -9,size_ice2/2.f,0 }, { 9,size_ice2/2.f,0 }, { 9,-size_ice2/2.f,0 }, { -9,-size_ice2/2.f,height }, { -9,size_ice2/2.f,height }, { 9,size_ice2/2.f,height }, { 9,-size_ice2/2.f,height }));
-  floor3.initialize_data_on_gpu(mesh_primitive_cubic_grid({ -size_ice1,-size_ice3,0 }, { -size_ice1,size_ice3,0 }, { size_ice1,size_ice3,0 }, { size_ice1,-size_ice3,0 }, { -size_ice1,-size_ice3,height }, { -size_ice1,size_ice3,height }, { size_ice1,size_ice3,height }, { size_ice1,-size_ice3,height }));
-  
-  auto change2ice = { &floor1, &floor2, &floor3 };
-  for (auto m : change2ice) {
-  	m->material.color = { 191.f/255.f, 251.f/255.f, 255.f/255.f };
-    m->material.phong.specular = 0.1f;
-    // m->texture.load_and_initialize_texture_2d_on_gpu("../assets/ice.jpg", 0x2901);
-  }
-
-  hierarchy.add(floor1, "Floor1");
-  hierarchy.add(floor2, "Floor2.1", "Floor1", { -11,-size_ice1-size_ice2/2.f,0 });
-  hierarchy.add(floor2, "Floor2.2", "Floor1", { 11,-size_ice1-size_ice2/2.f,0 });
-  hierarchy.add(floor3, "Floor3", "Floor1", { 0,-size_ice1-size_ice2-size_ice3,0 });
+  mesh_drawable floor;
+  floor.initialize_data_on_gpu(mesh_load_file_obj("../assets/banquise8.obj"));
+  floor.texture.load_and_initialize_texture_2d_on_gpu("../assets/texture_banquise.png", GL_REPEAT, GL_REPEAT);
+  floor.material.phong.specular = 0.1f;
+  hierarchy.add(floor, "Floor");
 
   create_penguin(hierarchy);
-//   create_penguin_cartoon(hierarchy);
+  penguin_ready(hierarchy);
 }
 
 void scene_structure::display_frame() {

@@ -19,28 +19,28 @@ void create_penguin(cgp::hierarchy_mesh_drawable &hierarchy) {
   mesh_drawable foot_left;
 
   body1.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.4f,0.45f,0.75f }));
-  body1.model.rotation = rotation_transform::from_axis_angle({0,0,1},-90*Pi/180) * rotation_transform::from_axis_angle({0,1,0},40*Pi/180);
-  body2.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.28f,0.32f,0.25f }));
+  body1.model.rotation = rotation_transform::from_axis_angle({0,0,1},-180*Pi/180) * rotation_transform::from_axis_angle({0,1,0},40*Pi/180);
+  body2.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.32f,0.28f,0.25f }));
   body2.model.rotation = rotation_transform::from_axis_angle({1,0,0},-10*Pi/180);
   head1.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.25f,0.25f,0.33f }));
-  head1.model.rotation = rotation_transform::from_axis_angle({0,0,1},-90*Pi/180) * rotation_transform::from_axis_angle({0,1,0},10*Pi/180);
+  head1.model.rotation = rotation_transform::from_axis_angle({0,0,1},-180*Pi/180) * rotation_transform::from_axis_angle({0,1,0},10*Pi/180);
   head2.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.17f,0.19f,0.26f }));
-  head2.model.rotation = rotation_transform::from_axis_angle({0,0,1},-90*Pi/180) * rotation_transform::from_axis_angle({0,1,0},90*Pi/180);
-  eye1.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.01f,0.035f,0.03f }));
-  eye1.model.rotation = rotation_transform::from_axis_angle({0,1,0},-20*Pi/180) * rotation_transform::from_axis_angle({0,0,1},-15*Pi/180);
-  eye2.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.01f,0.035f,0.03f }));
-  eye2.model.rotation = rotation_transform::from_axis_angle({0,1,0},20*Pi/180) * rotation_transform::from_axis_angle({0,0,1},15*Pi/180);
-  bec.initialize_data_on_gpu(mesh_primitive_cubic_grid({ -0.05f,-0.35f,-0.03f }, { 0,-0.3f,0.02f }, { 0.05f,-0.35f,-0.03f }, { 0,-0.4f,-0.08f }, { -0.1f,0,0 }, { 0,0,0.1f }, { 0.1f,0,0 }, { 0,0,-0.1f }));
-  wing_right.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.01f,0.1f,0.4f }));
-  wing_right.model.rotation = rotation_transform::from_axis_angle({0,1,0},-15*Pi/180) * rotation_transform::from_axis_angle({1,0,0},30*Pi/180);
-  wing_left.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.01f,0.1f,0.4f }));
-  wing_left.model.rotation = rotation_transform::from_axis_angle({0,1,0},15*Pi/180) * rotation_transform::from_axis_angle({1,0,0},30*Pi/180);
-  queue.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.25f,0.2f,0.4f }));
-  queue.model.rotation = rotation_transform::from_axis_angle({1,0,0},70*Pi/180);
+  head2.model.rotation = rotation_transform::from_axis_angle({0,0,1},-180*Pi/180) * rotation_transform::from_axis_angle({0,1,0},90*Pi/180);
+  eye1.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.035f,0.01f,0.03f }));
+  eye1.model.rotation = rotation_transform::from_axis_angle({1,0,0},20*Pi/180) * rotation_transform::from_axis_angle({0,0,1},15*Pi/180);
+  eye2.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.035f,0.01f,0.03f }));
+  eye2.model.rotation = rotation_transform::from_axis_angle({1,0,0},-20*Pi/180) * rotation_transform::from_axis_angle({0,0,1},-15*Pi/180);
+  bec.initialize_data_on_gpu(mesh_primitive_cubic_grid({ -0.35f,0.05f,-0.03f }, { -0.3f,0,0.02f }, { -0.35f,-0.05f,-0.03f }, { -0.4f,0,-0.08f }, { 0,0.1f,0 }, { 0,0,0.1f }, { 0,-0.1f,0 }, { 0,0,-0.1f }));
+  wing_right.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.1f,0.01f,0.4f }));
+  wing_right.model.rotation = rotation_transform::from_axis_angle({1,0,0},-15*Pi/180) * rotation_transform::from_axis_angle({0,1,0},-30*Pi/180);
+  wing_left.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.1f,0.01f,0.4f }));
+  wing_left.model.rotation = rotation_transform::from_axis_angle({1,0,0},15*Pi/180) * rotation_transform::from_axis_angle({0,1,0},-30*Pi/180);
+  queue.initialize_data_on_gpu(mesh_primitive_ellipsoid({ 0.2f,0.25f,0.4f }));
+  queue.model.rotation = rotation_transform::from_axis_angle({0,1,0},-70*Pi/180);
   leg_right.initialize_data_on_gpu(mesh_primitive_cylinder(0.07f, { 0,0,0 }, { 0,0,0.2f }, 10, 20, true));
   leg_left.initialize_data_on_gpu(mesh_primitive_cylinder(0.07f, { 0,0,0 }, { 0,0,0.2f }, 10, 20, true));
-  foot_right.initialize_data_on_gpu(mesh_primitive_cubic_grid({ 0,0,0.06f }, { 0.14f,0,0.06f }, { 0.24f,-0.3f,0.03f }, { -0.08f,-0.3f,0.03f }, { 0,0,0 }, { 0.14f,0,0 }, { 0.24f,-0.3f,0 }, { -0.08f,-0.3f,0 }));
-  foot_left.initialize_data_on_gpu(mesh_primitive_cubic_grid({ 0,0,0.06f }, { 0.14f,0,0.06f }, { 0.22f,-0.3f,0.03f }, { -0.1f,-0.3f,0.03f }, { 0,0,0 }, { 0.14f,0,0 }, { 0.22f,-0.3f,0 }, { -0.1f,-0.3f,0 }));
+  foot_right.initialize_data_on_gpu(mesh_primitive_cubic_grid({ 0,0,0.06f }, { 0,-0.14f,0.06f }, { -0.3f,-0.24f,0.03f }, { -0.3f,0.08f,0.03f }, { 0,0,0 }, { 0,-0.14f,0 }, { -0.3f,-0.24f,0 }, { -0.3f,0.08f,0 }));
+  foot_left.initialize_data_on_gpu(mesh_primitive_cubic_grid({ 0,0,0.06f }, { 0,-0.14f,0.06f }, { -0.3f,-0.22f,0.03f }, { -0.3f,0.1f,0.03f }, { 0,0,0 }, { 0,-0.14f,0 }, { -0.3f,-0.22f,0 }, { -0.3f,0.1f,0 }));
 
   auto change2grey2 = { &body2, &wing_right, &wing_left, &queue, &leg_right, &leg_left, &foot_right, &foot_left };
   for (auto m : change2grey2)
@@ -56,22 +56,54 @@ void create_penguin(cgp::hierarchy_mesh_drawable &hierarchy) {
   head1.texture.load_and_initialize_texture_2d_on_gpu("../assets/pinguin2.png");
   head2.texture.load_and_initialize_texture_2d_on_gpu("../assets/pinguin_head.png");
 
-  hierarchy.add(body1, "Body1", "Floor1", { 0,0,0.8f });
-  hierarchy.add(body2, "Body2", "Body1", { 0,-0.25f,0.5f });
+  hierarchy.add(body1, "Body1", "Floor", { 0,0,1.7f });
+  hierarchy.add(body2, "Body2", "Body1", { -0.25f,0,0.5f });
   hierarchy.add(head1, "Head1", "Body2", { 0,0,0.12f });
-  hierarchy.add(head2, "Head2", "Head1", { 0,-0.08f,0.16f });
-  hierarchy.add(eye1, "Eye1", "Head2", {0.165f,-0.1f,0.05f});
-  hierarchy.add(eye2, "Eye2", "Head2", {-0.165f,-0.1f,0.05f});
-  hierarchy.add(bec, "Bec", "Head2", { 0,-0.1f,0 });
-  hierarchy.add(wing_right, "Wing Right", "Body1", { 0.46f,0,0 });
-  hierarchy.add(wing_left, "Wing Left", "Body1", { -0.46f,0,0 });
-  hierarchy.add(queue, "Queue", "Body1", { 0,0.25f,-0.4f });
-  hierarchy.add(leg_right, "Leg Right", "Body1", { 0.18f,0,-0.6f });
-  hierarchy.add(leg_left, "Leg Left", "Body1", { -0.18f,0,-0.6f });
-  hierarchy.add(foot_right, "Foot Right", "Leg Right", { -0.07f,0,0 });
-  hierarchy.add(foot_left, "Foot Left", "Leg Left", { -0.07f,0,0 });
+  hierarchy.add(head2, "Head2", "Head1", { -0.08f,0,0.16f });
+  hierarchy.add(eye1, "Eye1", "Head2", {-0.1f,0.165f,0.05f});
+  hierarchy.add(eye2, "Eye2", "Head2", {-0.1f,-0.165f,0.05f});
+  hierarchy.add(bec, "Bec", "Head2", { -0.1f,0,0 });
+  hierarchy.add(wing_right, "Wing Right", "Body1", { 0,-0.46f,0 });
+  hierarchy.add(wing_left, "Wing Left", "Body1", { 0,0.46f,0 });
+  hierarchy.add(queue, "Queue", "Body1", { 0.25f,0,-0.4f });
+  hierarchy.add(leg_right, "Leg Right", "Body1", { 0,-0.18f,-0.6f });
+  hierarchy.add(leg_left, "Leg Left", "Body1", { 0,0.18f,-0.6f });
+  hierarchy.add(foot_right, "Foot Right", "Leg Right", { 0,0.07f,0 });
+  hierarchy.add(foot_left, "Foot Left", "Leg Left", { 0,0.07f,0 });
 }
 
+void penguin_ready(cgp::hierarchy_mesh_drawable &hierarchy) {
+  hierarchy["Body1"].drawable.model.rotation *= rotation_transform::from_axis_angle({0,1,0},50*Pi/180);
+
+  hierarchy["Body2"].drawable.model.rotation *= rotation_transform::from_axis_angle({0,1,0},130*Pi/180);
+  hierarchy["Body2"].drawable.model.translation = { -0.25f,0,-0.4f };
+
+  hierarchy["Head1"].drawable.model.rotation *= rotation_transform::from_axis_angle({0,1,0},10*Pi/180);
+  hierarchy["Head1"].drawable.model.translation = { -0.35f,0,-0.4f };
+
+  hierarchy["Head2"].drawable.model.translation = { -0.45f,0,-0.4f };
+  hierarchy["Eye1"].drawable.model.translation = { -0.45f,0,-0.4f };
+  hierarchy["Eye2"].drawable.model.translation = { -0.45f,0,-0.4f };
+  hierarchy["Bec"].drawable.model.translation = { -0.45f,0,-0.4f };
+
+  hierarchy["Wing Right"].drawable.model.rotation = rotation_transform::from_axis_angle({1,0,0},-45*Pi/180) * rotation_transform::from_axis_angle({0,1,0},-45*Pi/180);
+  hierarchy["Wing Right"].drawable.model.translation = { 0.05f,-0.06f,0 };
+  hierarchy["Wing Left"].drawable.model.rotation = rotation_transform::from_axis_angle({1,0,0},45*Pi/180) * rotation_transform::from_axis_angle({0,1,0},-45*Pi/180);
+  hierarchy["Wing Left"].drawable.model.translation = { 0.05f,0.06f,0 };
+  
+  hierarchy["Queue"].drawable.model.rotation *= rotation_transform::from_axis_angle({0,1,0},-10*Pi/180);
+  hierarchy["Queue"].drawable.model.translation = { 0.17f,0,0.42f };
+
+  hierarchy["Leg Right"].drawable.model.rotation = rotation_transform::from_axis_angle({0,1,0},-80*Pi/180);
+  hierarchy["Leg Right"].drawable.model.translation = { 0.7f,0,0.35f };
+  hierarchy["Leg Left"].drawable.model.rotation = rotation_transform::from_axis_angle({0,1,0},-80*Pi/180);
+  hierarchy["Leg Left"].drawable.model.translation = { 0.7f,0,0.35f };
+
+  hierarchy["Foot Right"].drawable.model.rotation = rotation_transform::from_axis_angle({0,1,0},-150*Pi/180);
+  hierarchy["Foot Right"].drawable.model.translation = { 0.7f,0,0.38f };
+  hierarchy["Foot Left"].drawable.model.rotation = rotation_transform::from_axis_angle({0,1,0},-150*Pi/180);
+  hierarchy["Foot Left"].drawable.model.translation = { 0.7f,0,0.38f };
+}
 
 void create_penguin_cartoon(cgp::hierarchy_mesh_drawable &hierarchy) {
   mesh_drawable body_c;
@@ -113,7 +145,7 @@ void create_penguin_cartoon(cgp::hierarchy_mesh_drawable &hierarchy) {
   body_c.texture.load_and_initialize_texture_2d_on_gpu("../assets/pinguin_cartoon.png");
   head_c.texture.load_and_initialize_texture_2d_on_gpu("../assets/pinguin_cartoon_head2.png");
 
-  hierarchy.add(body_c, "Body Cartoon");
+  hierarchy.add(body_c, "Body Cartoon", "Floor", { 0,0,1 });
   hierarchy.add(head_c, "Head Cartoon", "Body Cartoon", {0, 0, 0.7f});
   hierarchy.add(eye1_c, "Eye1 Cartoon", "Head Cartoon", {0.33f, 0.1f, 0.05f});
   hierarchy.add(eye2_c, "Eye2 Cartoon", "Head Cartoon", {0.33f, -0.1f, 0.05f});
