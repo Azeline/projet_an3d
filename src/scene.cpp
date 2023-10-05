@@ -19,8 +19,8 @@ void scene_structure::initialize() {
   floor.material.phong.specular = 0.1f;
   hierarchy.add(floor, "Floor");
 
-  create_penguin(hierarchy);
-  penguin_ready(hierarchy);
+  create_penguin(hierarchy, penguin_struct);
+  penguin_ready(penguin_struct);
 }
 
 void scene_structure::display_frame() {
@@ -33,6 +33,9 @@ void scene_structure::display_frame() {
 
   // This function must be called before the drawing in order to propagate the
   // deformations through the hierarchy
+	float const dt = 0.01f * timer.scale;
+  simulate_penguin(hierarchy, penguin_struct, dt);
+  update_mesh_drawable(hierarchy, penguin_struct);
   hierarchy.update_local_to_global_coordinates();
 
   // Draw the hierarchy as a single mesh

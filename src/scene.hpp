@@ -41,6 +41,7 @@ struct scene_structure : cgp::scene_inputs_generic {
 
   // The entire hierarchy
   cgp::hierarchy_mesh_drawable hierarchy;
+  std::vector<penguin_structure> penguin_struct = {};
 
   // ****************************** //
   // Functions
