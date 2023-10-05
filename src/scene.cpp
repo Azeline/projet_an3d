@@ -2,9 +2,6 @@
 
 using namespace cgp;
 
-void update_field_color(grid_2D<vec3>& field,
-                        numarray<particle_element> const& particles);
-
 void scene_structure::initialize() {
   // Basic set-up
   // ***************************************** //
