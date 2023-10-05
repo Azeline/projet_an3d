@@ -36,6 +36,15 @@ void display_gui_implicit_surface(bool &is_update_field,
         "Noise Persistance", &field_function.noise_persistance, 0.1f, 0.5f);
   }
 
+    if (ImGui::CollapsingHeader("Marching Cube Function")) {
+        is_update_field |= ImGui::SliderFloat(
+                "Smoothing Factor", &field_function.smooth_factor, 0.0f, 1.0f);
+
+        is_update_field |= ImGui::RadioButton("Kernel Wendland", &field_function.kernel_number, 0);
+        is_update_field |= ImGui::RadioButton("Kernel Poly 6", &field_function.kernel_number, 1);
+        is_update_field |= ImGui::RadioButton("Kernel Spiky", &field_function.kernel_number, 2);
+    }
+
   ImGui::Spacing();
   is_update_marching_cube |=
       ImGui::SliderFloat("Isovalue", &gui.isovalue, 0.0f, 1.0f);

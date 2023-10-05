@@ -67,7 +67,7 @@ void implicit_surface_structure::update_marching_cube(float isovalue)
 
 
 
-void implicit_surface_structure::update_field(field_function_structure const& func, float isovalue)
+void implicit_surface_structure::update_field(field_function_structure& func, float isovalue)
 {
 	// Variable shortcut
 	grid_3D<float>& field = field_param.field;
@@ -125,7 +125,7 @@ void implicit_surface_structure::time_update(gui_parameters &gui, field_function
 
 
 
-grid_3D<float> compute_discrete_scalar_field(spatial_domain_grid_3D const& domain, field_function_structure const& func)
+grid_3D<float> compute_discrete_scalar_field(const cgp::spatial_domain_grid_3D &domain, field_function_structure &func)
 {
 	grid_3D<float> field;
 	field.resize(domain.samples);

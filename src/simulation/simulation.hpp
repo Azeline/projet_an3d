@@ -19,7 +19,7 @@ struct particle_element {
 struct sph_parameters_structure
 {
     // Influence distance of a particle (size of the kernel)
-    float h = 2.0f * 0.12f;
+    float h = 3.0f * 0.12f;
 
     // Rest density (normalized to 1 - real unit should be 1000kg/m^2)
     float rho0 = 1;

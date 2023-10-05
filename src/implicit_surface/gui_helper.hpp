@@ -9,8 +9,8 @@ struct gui_parameters {
     bool frame = false;
     bool wireframe = false;  // Display the wireframe of the implicit surface
     bool surface = true;     // Display the implicit surface
-    bool domain = true;  // Display the box representing the domain of the marching cube
-    bool particles = true;
+    bool domain = false;  // Display the box representing the domain of the marching cube
+    bool particles = false;
     bool radius = false;
   } display;
 
@@ -20,7 +20,7 @@ struct gui_parameters {
   } domain;
 
   // Isovalue used during the marching cube
-  float isovalue = 1.f;
+  float isovalue = .5f;
 };
 
 void display_gui_implicit_surface(bool &is_update_field, bool &is_update_marching_cube, bool &is_save_obj, gui_parameters &gui, field_function_structure &field_function);

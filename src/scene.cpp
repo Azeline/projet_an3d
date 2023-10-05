@@ -37,7 +37,7 @@ void scene_structure::initialize() {
 void scene_structure::initialize_sph()
 {
     // Initial particle spacing (relative to h)
-    float const c = 0.7f;
+    float const c = 0.5f;
     float const h = sph_parameters.h;
 
 
