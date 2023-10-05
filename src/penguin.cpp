@@ -72,7 +72,6 @@ void create_penguin(cgp::hierarchy_mesh_drawable &hierarchy) {
   hierarchy.add(foot_left, "Foot Left", "Leg Left", { -0.07f,0,0 });
 }
 
-
 void create_penguin_cartoon(cgp::hierarchy_mesh_drawable &hierarchy) {
   mesh_drawable body_c;
   mesh_drawable head_c;

@@ -9,8 +9,9 @@ struct gui_parameters {
     bool frame = false;
     bool wireframe = false;  // Display the wireframe of the implicit surface
     bool surface = true;     // Display the implicit surface
-    bool domain =
-        true;  // Display the box representing the domain of the marching cube
+    bool domain = true;  // Display the box representing the domain of the marching cube
+    bool particles = true;
+    bool radius = false;
   } display;
 
   struct {  // Elements of the domain

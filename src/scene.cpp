@@ -17,13 +17,19 @@ void scene_structure::initialize() {
   global_frame.initialize_data_on_gpu(mesh_primitive_frame());
 
   create_penguin(hierarchy);
+  // Initialization for the Implicit Surface
+  // ***************************************** //
+
+  implicit_surface.set_domain(gui.domain.samples, gui.domain.length);
+  implicit_surface.update_field(field_function, gui.isovalue);
+  // Sphere init
   // ***************************************** //
   initialize_sph();
   sphere_particle.initialize_data_on_gpu(mesh_primitive_sphere(1.0,{0,0,0},10,10));
   sphere_particle.model.scaling = 0.01f;
   curve_visual.color = { 1,0,0 };
   curve_visual.initialize_data_on_gpu(curve_primitive_circle());
-//   create_penguin_cartoon(hierarchy);
+// create_penguin_cartoon(hierarchy);
 }
 
 void scene_structure::initialize_sph()
@@ -53,7 +59,7 @@ void scene_structure::initialize_sph()
 void scene_structure::display_frame() {
   // Set the light to the current position of the camera
   environment.light = camera_control.camera_model.position();
-  if (gui.display_frame) draw(global_frame, environment);
+  if (gui.display.frame) draw(global_frame, environment);
 
   // Update the current time
   timer.update();
@@ -62,13 +68,16 @@ void scene_structure::display_frame() {
 
   // Draw the hierarchy as a single mesh
   draw(hierarchy, environment);
-  if (gui.display_wireframe) draw_wireframe(hierarchy, environment);
+  if (gui.display.wireframe) {
+      draw_wireframe(hierarchy, environment);
+      draw_wireframe(implicit_surface.drawable_param.shape, environment);
+  }
 
   // ***************************************** //
     simulate(dt, particles, sph_parameters);
 
 
-    if (gui.display_particles) {
+    if (gui.display.particles) {
         for (int k = 0; k < particles.size(); ++k) {
             vec3 const& p = particles[k].p;
             sphere_particle.model.translation = p;
@@ -76,7 +85,7 @@ void scene_structure::display_frame() {
         }
     }
 
-    if (gui.display_radius) {
+    if (gui.display.radius) {
         curve_visual.model.scaling = sph_parameters.h;
         for (int k = 0; k < particles.size(); k += 10) {
             curve_visual.model.translation = particles[k].p;
@@ -84,11 +93,17 @@ void scene_structure::display_frame() {
         }
     }
 
+    if (gui.display.surface)    // Display the implicit surface
+        draw(implicit_surface.drawable_param.shape, environment);
+
+    if (gui.display.domain)    // Display the boundary of the domain
+        draw(implicit_surface.drawable_param.domain_box, environment);
+
 }
 
 void scene_structure::display_gui() {
-  ImGui::Checkbox("Frame", &gui.display_frame);
-  ImGui::Checkbox("Wireframe", &gui.display_wireframe);
+  ImGui::Checkbox("Frame", &gui.display.frame);
+  ImGui::Checkbox("Wireframe", &gui.display.wireframe);
 
   ImGui::SliderFloat("Timer scale", &timer.scale, 0.01f, 4.0f, "%0.2f");
 
@@ -96,8 +111,10 @@ void scene_structure::display_gui() {
   if (restart)
       initialize_sph();
 
-  ImGui::Checkbox("Particles", &gui.display_particles);
-  ImGui::Checkbox("Radius", &gui.display_radius);
+  ImGui::Checkbox("Particles", &gui.display.particles);
+  ImGui::Checkbox("Radius", &gui.display.radius);
+
+  implicit_surface.gui_update(gui, field_function);
 }
 
 void update_field_color(grid_2D<vec3>& field, numarray<particle_element> const& particles)

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "implicit_surface/implicit_surface.hpp"
 #include "penguin.hpp"
 #include "simulation/simulation.hpp"
 
@@ -10,14 +11,6 @@ using cgp::mesh_drawable;
 using cgp::numarray;
 using cgp::timer_basic;
 using cgp::vec3;
-
-// The element of the GUI that are not already stored in other structures
-struct gui_parameters {
-  bool display_frame = true;
-  bool display_wireframe = false;
-  bool display_particles = true;
-  bool display_radius = false;
-};
 
 // The structure of the custom scene
 struct scene_structure : cgp::scene_inputs_generic {
@@ -49,6 +42,10 @@ struct scene_structure : cgp::scene_inputs_generic {
 
   // The entire hierarchy
   cgp::hierarchy_mesh_drawable hierarchy;
+
+  // Water components
+  implicit_surface_structure implicit_surface; // Structures used for the implicit surface (*)
+  field_function_structure field_function;     // A Parametric function used to generate the discrete field (*)
 
   // ****************************** //
   // Functions
