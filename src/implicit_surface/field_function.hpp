@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cgp/cgp.hpp"
+#include "simulation/simulation.hpp"
 
 // Parametric function defined as a sum of blobs-like primitives
 //  f(p) = sa exp(-||p-pa||^2) + sb exp(-||p-pb||^2) + sc exp(-||p-pc||^2) +
@@ -17,6 +18,8 @@ struct field_function_structure {
 	// ***************************//
 	// Parameters
 	// ***************************//
+    // Particles in the scene
+    cgp::numarray<particle_element>& particles;
 
 	// The 3 center of the 3 blobs
 	cgp::vec3 pa = {  1.0f, 0.0f, 0.0f};

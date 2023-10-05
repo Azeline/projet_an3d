@@ -20,7 +20,6 @@ struct implicit_surface_data {
 	std::vector<cgp::vec3> position;      // Positions of the mesh
 	std::vector<cgp::vec3> normal;        // Normals of the mesh
 	std::vector<cgp::marching_cube_relative_coordinates> relative; // Relative coordinates of the vertices expressed as an edge in the discrete grid
-    //cgp::numarray<particle_element> &particles;
 };
 
 // Sub-structure that contains the elements that are displayed

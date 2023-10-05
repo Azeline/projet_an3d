@@ -28,7 +28,6 @@ void scene_structure::initialize() {
   // Initialization for the Implicit Surface
   // ***************************************** //
   implicit_surface.set_domain(gui.domain.samples, gui.domain.length);
-  //implicit_surface.data_param.particles = particles;
   implicit_surface.update_field(field_function, gui.isovalue);
 // create_penguin_cartoon(hierarchy);
 }
