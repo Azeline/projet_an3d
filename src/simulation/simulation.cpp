@@ -54,7 +54,7 @@ void update_force(numarray<particle_element> &particles, float h, float m, float
     for (int i = 0; i < N; ++i) {
         vec3 F_pressure = vec3{};
         vec3 F_viscosity = vec3{};
-        particles[i].f = m * vec3{0, -9.81f, 0};
+        particles[i].f = m * vec3{0, 0, -9.81f};
         for (int j = 0; j < N; j++) {
             if (i != j && norm(particles[i].p - particles[j].p) <= h) {
                 F_pressure += m * (particles[i].pressure + particles[j].pressure) / (2 * particles[j].rho) * W_gradient_pressure(particles[i].p, particles[j].p, h);
@@ -97,6 +97,11 @@ void simulate(float dt, numarray<particle_element> &particles, sph_parameters_st
             p.y = -1 + epsilon * rand_interval();
             v.y *= -0.5f;
         }
+        if (p.y > 1) {
+            p.y = 1 - epsilon * rand_interval();
+            v.y *= -0.5f;
+        }
+
         if (p.x < -1) {
             p.x = -1 + epsilon * rand_interval();
             v.x *= -0.5f;
@@ -104,6 +109,15 @@ void simulate(float dt, numarray<particle_element> &particles, sph_parameters_st
         if (p.x > 1) {
             p.x = 1 - epsilon * rand_interval();
             v.x *= -0.5f;
+        }
+
+        if (p.z < -1) {
+            p.z = -1 + epsilon * rand_interval();
+            v.z *= -0.5f;
+        }
+        if (p.z > 1) {
+            p.z = 1 - epsilon * rand_interval();
+            v.z *= -0.5f;
         }
     }
 
