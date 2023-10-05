@@ -18,11 +18,6 @@ void scene_structure::initialize() {
 
   create_penguin(hierarchy);
   // ***************************************** //
-  field.resize(30, 30);
-  field_quad.initialize_data_on_gpu(mesh_primitive_quadrangle({ -1,-1,0 }, { 1,-1,0 }, { 1,1,0 }, { -1,1,0 }) );
-  field_quad.material.phong = { 1,0,0 };
-  field_quad.texture.initialize_texture_2d_on_gpu(field);
-
   initialize_sph();
   sphere_particle.initialize_data_on_gpu(mesh_primitive_sphere(1.0,{0,0,0},10,10));
   sphere_particle.model.scaling = 0.01f;
@@ -89,12 +84,6 @@ void scene_structure::display_frame() {
         }
     }
 
-    if (gui.display_color) {
-        update_field_color(field, particles);
-        field_quad.texture.update(field);
-        draw(field_quad, environment);
-    }
-
 }
 
 void scene_structure::display_gui() {
@@ -107,7 +96,6 @@ void scene_structure::display_gui() {
   if (restart)
       initialize_sph();
 
-  ImGui::Checkbox("Color", &gui.display_color);
   ImGui::Checkbox("Particles", &gui.display_particles);
   ImGui::Checkbox("Radius", &gui.display_radius);
 }
