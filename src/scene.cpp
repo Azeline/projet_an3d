@@ -44,11 +44,15 @@ void scene_structure::initialize_sph()
     {
         for (float y = -1.0f + h; y < 1.0f - h; y = y + c * h)
         {
-            particle_element particle;
-            particle.p = { x + h / 8.0 * rand_interval(),y + h / 8.0 * rand_interval(),0 }; // a zero value in z position will lead to a 2D simulation
-            particles.push_back(particle);
+            for (float z = -1.0f + h; z < 1.0f - h; z = z + c * h)
+            {
+                particle_element particle;
+                particle.p = {x + h / 8.0 * rand_interval(), y + h / 8.0 * rand_interval(), z + h / 8.0 * rand_interval()}; // a zero value in z position will lead to a 2D simulation
+                particles.push_back(particle);
+            }
         }
     }
+    printf("nb particles : %i\n", particles.size());
 }
 
 void scene_structure::display_frame() {
