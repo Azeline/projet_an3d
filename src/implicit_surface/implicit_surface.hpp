@@ -19,7 +19,9 @@ struct implicit_surface_data {
 	size_t number_of_vertex;              // The valid number of vertex of the surface
 	std::vector<cgp::vec3> position;      // Positions of the mesh
 	std::vector<cgp::vec3> normal;        // Normals of the mesh
+    cgp::numarray<cgp::vec3> color_vector;  // Vector holding colors
 	std::vector<cgp::marching_cube_relative_coordinates> relative; // Relative coordinates of the vertices expressed as an edge in the discrete grid
+    cgp::vec3 base_color{0,0,1};
 };
 
 // Sub-structure that contains the elements that are displayed

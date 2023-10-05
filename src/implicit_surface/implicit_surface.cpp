@@ -36,6 +36,11 @@ void implicit_surface_structure::update_marching_cube(float isovalue)
 	// Compute the Marching Cube
 	number_of_vertex = marching_cube(position, field.data.data, domain, isovalue, &relative_coord);
 
+    // Fill the color vector
+    cgp::numarray<vec3> &colors = data_param.color_vector;
+    colors.resize(number_of_vertex);
+    colors.fill(data_param.base_color);
+
 	// Resize the vector of normals if needed
 	if (normal.size() < position.size())
 		normal.resize(position.size());
@@ -46,13 +51,14 @@ void implicit_surface_structure::update_marching_cube(float isovalue)
 	if (position.size() > previous_size) {
 		// If there is more position than allocated - perform a full clear and reallocation from scratch
 		drawable_param.shape.clear();
-		drawable_param.shape.initialize_data_on_gpu(position, normal);
+		drawable_param.shape.initialize_data_on_gpu(position, normal, colors);
 	}
 	else {
 		// Otherwise simply update the new relevant values re-using the allocated buffers
         if (number_of_vertex > 0) {
             drawable_param.shape.vbo_position.update(position, number_of_vertex);
             drawable_param.shape.vbo_normal.update(normal, number_of_vertex);
+            drawable_param.shape.vbo_color.update(colors, number_of_vertex);
             drawable_param.shape.vertex_number = number_of_vertex;
         }
 	}
