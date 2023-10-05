@@ -50,9 +50,11 @@ void implicit_surface_structure::update_marching_cube(float isovalue)
 	}
 	else {
 		// Otherwise simply update the new relevant values re-using the allocated buffers
-		drawable_param.shape.vbo_position.update(position, number_of_vertex);
-		drawable_param.shape.vbo_normal.update(normal, number_of_vertex);
-		drawable_param.shape.vertex_number = number_of_vertex;
+        if (number_of_vertex > 0) {
+            drawable_param.shape.vbo_position.update(position, number_of_vertex);
+            drawable_param.shape.vbo_normal.update(normal, number_of_vertex);
+            drawable_param.shape.vertex_number = number_of_vertex;
+        }
 	}
 
 }
@@ -108,6 +110,11 @@ void implicit_surface_structure::gui_update(gui_parameters &gui, field_function_
 		save_file_obj("mesh.obj", data_param.position, data_param.normal);
 	}
 
+}
+
+void implicit_surface_structure::time_update(gui_parameters &gui, field_function_structure &func){
+    set_domain(gui.domain.samples, gui.domain.length);
+    update_field(func, gui.isovalue);
 }
 
 

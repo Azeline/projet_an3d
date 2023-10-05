@@ -19,17 +19,7 @@ struct field_function_structure {
 	// Parameters
 	// ***************************//
     // Particles in the scene
-    cgp::numarray<particle_element>& particles;
-
-	// The 3 center of the 3 blobs
-	cgp::vec3 pa = {  1.0f, 0.0f, 0.0f};
-	cgp::vec3 pb = { -1.0f, 0.0f, 0.0f };
-	cgp::vec3 pc = {  0.0F, 0.5f, 0.0f };
-
-	// The magnitude associated to each primitive
-	float sa = 1.0f;
-	float sb = 1.0f;
-	float sc = 0.0f; // note: The third blob is not visible initially has its magnitude is 0
+    std::vector<particle_element> *particles;
 
 	// The parameters of the Perlin noise
 	float noise_magnitude   = 0.0f; // Magnitude of the noise

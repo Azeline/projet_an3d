@@ -36,4 +36,4 @@ struct sph_parameters_structure
 };
 
 
-void simulate(float dt, cgp::numarray<particle_element>& particles, sph_parameters_structure const& sph_parameters);
+void simulate(float dt,std::vector<particle_element>& particles, sph_parameters_structure const& sph_parameters);

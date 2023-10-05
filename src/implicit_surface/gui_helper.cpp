@@ -23,30 +23,6 @@ void display_gui_implicit_surface(bool &is_update_field,
   }
 
   if (ImGui::CollapsingHeader("Field Function")) {
-    ImGui::Text("Position A");
-    is_update_field |=
-        ImGui::SliderFloat("Power A", &field_function.sa, 0.0f, 2.0f);
-    is_update_field |=
-        ImGui::SliderFloat("Pa-x", &field_function.pa.x, -2.0f, 2.0f);
-    is_update_field |=
-        ImGui::SliderFloat("Pa-y", &field_function.pa.y, -2.0f, 2.0f);
-    ImGui::Spacing();
-    ImGui::Text("Position B");
-    is_update_field |=
-        ImGui::SliderFloat("Power B", &field_function.sb, 0.0f, 2.0f);
-    is_update_field |=
-        ImGui::SliderFloat("Pb-x", &field_function.pb.x, -2.0f, 2.0f);
-    is_update_field |=
-        ImGui::SliderFloat("Pb-y", &field_function.pb.y, -2.0f, 2.0f);
-    ImGui::Spacing();
-    ImGui::Text("Position C");
-    is_update_field |=
-        ImGui::SliderFloat("Power C", &field_function.sc, 0.0f, 2.0f);
-    is_update_field |=
-        ImGui::SliderFloat("Pc-x", &field_function.pc.x, -2.0f, 2.0f);
-    is_update_field |=
-        ImGui::SliderFloat("Pc-y", &field_function.pc.y, -2.0f, 2.0f);
-    ImGui::Spacing();
     ImGui::Text("Noise parameters");
     is_update_field |= ImGui::SliderFloat(
         "Noise Power", &field_function.noise_magnitude, 0.0f, 1.0f);

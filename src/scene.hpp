@@ -36,7 +36,7 @@ struct scene_structure : cgp::scene_inputs_generic {
   timer_basic timer;
 
     sph_parameters_structure sph_parameters; // Physical parameter related to SPH
-    cgp::numarray<particle_element> particles;      // Storage of the particles
+    std::vector<particle_element> particles;      // Storage of the particles
     cgp::mesh_drawable sphere_particle; // Sphere used to display a particle
     cgp::curve_drawable curve_visual;   // Circle used to display the radius h of influence
 

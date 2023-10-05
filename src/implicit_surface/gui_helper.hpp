@@ -15,12 +15,12 @@ struct gui_parameters {
   } display;
 
   struct {  // Elements of the domain
-    int samples = 30;
+    int samples = 21;
     cgp::vec3 length = {5, 3, 3};
   } domain;
 
   // Isovalue used during the marching cube
-  float isovalue = 0.5f;
+  float isovalue = 1.f;
 };
 
 void display_gui_implicit_surface(bool &is_update_field, bool &is_update_marching_cube, bool &is_save_obj, gui_parameters &gui, field_function_structure &field_function);

@@ -25,10 +25,15 @@ void scene_structure::initialize() {
   curve_visual.color = { 1,0,0 };
   curve_visual.initialize_data_on_gpu(curve_primitive_circle());
 
+  // Initialization for the Field function
+  // ***************************************** //
+  field_function.particles = &particles;
+
   // Initialization for the Implicit Surface
   // ***************************************** //
   implicit_surface.set_domain(gui.domain.samples, gui.domain.length);
   implicit_surface.update_field(field_function, gui.isovalue);
+
 // create_penguin_cartoon(hierarchy);
 }
 
@@ -53,7 +58,7 @@ void scene_structure::initialize_sph()
             }
         }
     }
-    printf("nb particles : %i\n", particles.size());
+    printf("nb particles : %li\n", particles.size());
 }
 
 void scene_structure::display_frame() {
@@ -65,6 +70,7 @@ void scene_structure::display_frame() {
   timer.update();
   float const dt = 0.005f * timer.scale;
   hierarchy.update_local_to_global_coordinates();
+  implicit_surface.time_update(gui, field_function);
 
   // Draw the hierarchy as a single mesh
   draw(hierarchy, environment);
@@ -115,26 +121,6 @@ void scene_structure::display_gui() {
   ImGui::Checkbox("Radius", &gui.display.radius);
 
     implicit_surface.gui_update(gui, field_function);
-}
-
-void update_field_color(grid_2D<vec3>& field, numarray<particle_element> const& particles)
-{
-    field.fill({ 1,1,1 });
-    float const d = 0.1f;
-    int const Nf = int(field.dimension.x);
-    for (int kx = 0; kx < Nf; ++kx) {
-        for (int ky = 0; ky < Nf; ++ky) {
-
-            float f = 0.0f;
-            vec3 const p0 = { 2.0f * (kx / (Nf - 1.0f) - 0.5f), 2.0f * (ky / (Nf - 1.0f) - 0.5f), 0.0f };
-            for (size_t k = 0; k < particles.size(); ++k) {
-                vec3 const& pi = particles[k].p;
-                float const r = norm(pi - p0) / d;
-                f += 0.25f * std::exp(-r * r);
-            }
-            field(kx, Nf - 1 - ky) = vec3(clamp(1 - f, 0, 1), clamp(1 - f, 0, 1), 1);
-        }
-    }
 }
 
 void scene_structure::mouse_move_event() {

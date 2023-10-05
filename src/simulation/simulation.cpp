@@ -28,7 +28,7 @@ float W_density(vec3 const &p_i, const vec3 &p_j, float h) {
 }
 
 
-void update_density(numarray<particle_element> &particles, float h, float m) {
+void update_density(std::vector<particle_element> &particles, float h, float m) {
     // To do: Compute the density value (particles[i].rho) at each particle position
     int const N = particles.size();
     for (int i = 0; i < N; ++i) {
@@ -41,14 +41,14 @@ void update_density(numarray<particle_element> &particles, float h, float m) {
 }
 
 // Convert the particle density to pressure
-void update_pressure(numarray<particle_element> &particles, float rho0, float stiffness) {
+void update_pressure(std::vector<particle_element> &particles, float rho0, float stiffness) {
     const int N = particles.size();
     for (int i = 0; i < N; ++i)
         particles[i].pressure = density_to_pressure(particles[i].rho, rho0, stiffness);
 }
 
 // Compute the forces and update the acceleration of the particles
-void update_force(numarray<particle_element> &particles, float h, float m, float nu) {
+void update_force(std::vector<particle_element> &particles, float h, float m, float nu) {
     // gravity
     const int N = particles.size();
     for (int i = 0; i < N; ++i) {
@@ -65,7 +65,7 @@ void update_force(numarray<particle_element> &particles, float h, float m, float
     }
 }
 
-void simulate(float dt, numarray<particle_element> &particles, sph_parameters_structure const &sph_parameters) {
+void simulate(float dt, std::vector<particle_element> &particles, sph_parameters_structure const &sph_parameters) {
 
     // Update values
     update_density(particles, sph_parameters.h, sph_parameters.m);                   // First compute updated density

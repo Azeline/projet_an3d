@@ -51,6 +51,9 @@ struct implicit_surface_structure
 
 	//   Helper function to update the gui and call the associated update functions
     void gui_update(gui_parameters &gui, field_function_structure &func);
+
+    // Called each delta time to update surface
+    void time_update(gui_parameters &gui, field_function_structure &func);
 };
 
 
