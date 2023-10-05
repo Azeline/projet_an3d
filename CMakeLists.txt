@@ -7,6 +7,8 @@ set(PATH_TO_CGP
     "cgp/library/"
     CACHE PATH "Relative path to CGP library location")
 
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -pedantic -O3")
+
 # Check that the path to the library is correct
 get_filename_component(ABS_PATH_TO_CGP ${PATH_TO_CGP} ABSOLUTE)
 message(STATUS "The relative path to the library is set to ${PATH_TO_CGP}")
