@@ -59,7 +59,7 @@ void implicit_surface_structure::update_marching_cube(float isovalue)
 
 
 
-void implicit_surface_structure::update_field(field_function_structure const& field_function, float isovalue)
+void implicit_surface_structure::update_field(field_function_structure const& func, float isovalue)
 {
 	// Variable shortcut
 	grid_3D<float>& field = field_param.field;
@@ -67,7 +67,7 @@ void implicit_surface_structure::update_field(field_function_structure const& fi
 	spatial_domain_grid_3D& domain = field_param.domain;
 
 	// Compute the scalar field
-	field = compute_discrete_scalar_field(domain, field_function);
+	field = compute_discrete_scalar_field(domain, func);
 
 	// Compute the gradient of the scalar field
 	gradient = compute_gradient(field);
@@ -87,19 +87,19 @@ void implicit_surface_structure::set_domain(int samples, cgp::vec3 const& length
 
 
 
-void implicit_surface_structure::gui_update(gui_parameters& gui, field_function_structure& field_function)
+void implicit_surface_structure::gui_update(gui_parameters &gui, field_function_structure &func)
 {
 	bool is_update_marching_cube = false;
 	bool is_update_field = false;
 	bool is_save_obj = false;
 
-	display_gui_implicit_surface(is_update_field, is_update_marching_cube, is_save_obj, gui, field_function);
+    display_gui_implicit_surface(is_update_field, is_update_marching_cube, is_save_obj, gui, func);
 
 	if (is_update_marching_cube)
 		update_marching_cube(gui.isovalue);
 	if (is_update_field) {
 		set_domain(gui.domain.samples, gui.domain.length);
-		update_field(field_function, gui.isovalue);
+		update_field(func, gui.isovalue);
 	}
 
 	if (is_save_obj) {

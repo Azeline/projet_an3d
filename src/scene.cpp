@@ -17,11 +17,6 @@ void scene_structure::initialize() {
   global_frame.initialize_data_on_gpu(mesh_primitive_frame());
 
   create_penguin(hierarchy);
-  // Initialization for the Implicit Surface
-  // ***************************************** //
-
-  implicit_surface.set_domain(gui.domain.samples, gui.domain.length);
-  implicit_surface.update_field(field_function, gui.isovalue);
   // Sphere init
   // ***************************************** //
   initialize_sph();
@@ -29,6 +24,12 @@ void scene_structure::initialize() {
   sphere_particle.model.scaling = 0.01f;
   curve_visual.color = { 1,0,0 };
   curve_visual.initialize_data_on_gpu(curve_primitive_circle());
+
+  // Initialization for the Implicit Surface
+  // ***************************************** //
+  implicit_surface.set_domain(gui.domain.samples, gui.domain.length);
+  //implicit_surface.data_param.particles = particles;
+  implicit_surface.update_field(field_function, gui.isovalue);
 // create_penguin_cartoon(hierarchy);
 }
 
@@ -114,7 +115,7 @@ void scene_structure::display_gui() {
   ImGui::Checkbox("Particles", &gui.display.particles);
   ImGui::Checkbox("Radius", &gui.display.radius);
 
-  implicit_surface.gui_update(gui, field_function);
+    implicit_surface.gui_update(gui, field_function);
 }
 
 void update_field_color(grid_2D<vec3>& field, numarray<particle_element> const& particles)

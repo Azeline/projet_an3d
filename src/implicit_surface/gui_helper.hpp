@@ -23,4 +23,4 @@ struct gui_parameters {
   float isovalue = 0.5f;
 };
 
-void display_gui_implicit_surface(bool& is_update_field, bool& is_update_marching_cube, bool& is_save_obj, gui_parameters& gui, field_function_structure& field_function);
+void display_gui_implicit_surface(bool &is_update_field, bool &is_update_marching_cube, bool &is_save_obj, gui_parameters &gui, field_function_structure &field_function);

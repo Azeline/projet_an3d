@@ -20,6 +20,7 @@ struct implicit_surface_data {
 	std::vector<cgp::vec3> position;      // Positions of the mesh
 	std::vector<cgp::vec3> normal;        // Normals of the mesh
 	std::vector<cgp::marching_cube_relative_coordinates> relative; // Relative coordinates of the vertices expressed as an edge in the discrete grid
+    //cgp::numarray<particle_element> &particles;
 };
 
 // Sub-structure that contains the elements that are displayed
@@ -41,7 +42,7 @@ struct implicit_surface_structure
 	// *************************************************** //
 
 	//   Recompute from scratch the field and the marching cube
-	void update_field(field_function_structure const& field_function, float isovalue);
+	void update_field(field_function_structure const& func, float isovalue);
 
 	//   Recompute only the marching cube for a different isovalue (while minimize re-allocations)
 	void update_marching_cube(float isovalue);
@@ -50,7 +51,7 @@ struct implicit_surface_structure
 	void set_domain(int samples, cgp::vec3 const& length);
 
 	//   Helper function to update the gui and call the associated update functions
-	void gui_update(gui_parameters& gui, field_function_structure& field_function);
+    void gui_update(gui_parameters &gui, field_function_structure &func);
 };
 
 
