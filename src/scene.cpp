@@ -123,6 +123,7 @@ void scene_structure::display_gui() {
       penguin_struct.bounding_min = { INFINITY,INFINITY,INFINITY };
       penguin_struct.bounding_max = { -INFINITY,-INFINITY,-INFINITY };
       get_bounding_box(hierarchy, penguin_struct);
+      hierarchy["Body1"].transform_local.rotation = {};
   }
 
     implicit_surface.gui_update(gui, field_function, penguin_struct);

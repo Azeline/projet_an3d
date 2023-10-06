@@ -38,7 +38,7 @@ void implicit_surface_structure::update_marching_cube(float isovalue)
 
     // Fill the color vector
     cgp::numarray<vec3> &colors = data_param.color_vector;
-    colors.resize(number_of_vertex);
+    colors.resize(position.size());
     colors.fill(data_param.base_color);
 
 	// Resize the vector of normals if needed
