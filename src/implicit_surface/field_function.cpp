@@ -51,10 +51,7 @@ float field_function_structure::operator()(cgp::vec3 const& p) {
       value += (this->*kernelPointer)(r);
   }
 
-  //if(value > 0.01f)
-  //    printf("%f\n", value);
-
-  if (noise_magnitude > 0) {
+  if (noise_magnitude > 0 && value > 0) {
     vec3 const offset = vec3{noise_offset + 1000, 1000, 1000};
     vec3 const p_noise = noise_scale * p + offset;
     value += noise_magnitude *

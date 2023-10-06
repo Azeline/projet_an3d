@@ -20,7 +20,7 @@ struct gui_parameters {
   } domain;
 
   // Isovalue used during the marching cube
-  float isovalue = .5f;
+  float isovalue = .1f;
 };
 
 void display_gui_implicit_surface(bool &is_update_field, bool &is_update_marching_cube, bool &is_save_obj, gui_parameters &gui, field_function_structure &field_function);

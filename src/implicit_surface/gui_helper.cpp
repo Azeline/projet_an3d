@@ -22,8 +22,7 @@ void display_gui_implicit_surface(bool &is_update_field,
         ImGui::SliderFloat("Lz", &gui.domain.length.z, 0.5f, 10.0f);
   }
 
-  if (ImGui::CollapsingHeader("Field Function")) {
-    ImGui::Text("Noise parameters");
+  if (ImGui::CollapsingHeader("Noise Parameters")) {
     is_update_field |= ImGui::SliderFloat(
         "Noise Power", &field_function.noise_magnitude, 0.0f, 1.0f);
     is_update_field |= ImGui::SliderFloat(
@@ -47,7 +46,7 @@ void display_gui_implicit_surface(bool &is_update_field,
 
   ImGui::Spacing();
   is_update_marching_cube |=
-      ImGui::SliderFloat("Isovalue", &gui.isovalue, 0.0f, 1.0f);
+      ImGui::SliderFloat("Isovalue", &gui.isovalue, 0.0f, .7f);
 
   ImGui::Spacing();
   is_save_obj = ImGui::Button("Export mesh as obj");
