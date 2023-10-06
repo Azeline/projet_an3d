@@ -90,7 +90,7 @@ void implicit_surface_structure::update_field(field_function_structure& func, fl
 
 void implicit_surface_structure::set_domain(int samples, cgp::vec3 const& length)
 {
-	field_param.domain = spatial_domain_grid_3D::from_center_length({ 0,0,0 }, length, samples * int3{ 1,1,1 });
+	field_param.domain = spatial_domain_grid_3D::from_center_length({ -25,0,0 }, length, samples * int3{ 1,1,1 });
 }
 
 

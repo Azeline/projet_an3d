@@ -7,6 +7,10 @@ void display_gui_implicit_surface(bool &is_update_field,
                                   bool &is_save_obj, gui_parameters &gui,
                                   field_function_structure &field_function) {
   if (ImGui::CollapsingHeader("Display")) {
+    ImGui::Checkbox("Frame", &gui.display.frame);
+    ImGui::Checkbox("Wireframe", &gui.display.wireframe);
+    ImGui::Checkbox("Particles", &gui.display.particles);
+    ImGui::Checkbox("Radius", &gui.display.radius);
     ImGui::Checkbox("Surface", &gui.display.surface);
     ImGui::Checkbox("Domain", &gui.display.domain);
   }

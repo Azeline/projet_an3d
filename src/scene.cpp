@@ -46,11 +46,12 @@ void scene_structure::initialize_sph()
     // Initial particle spacing (relative to h)
     float const c = 0.5f;
     float const h = sph_parameters.h;
+    float xOffset = sph_parameters.spawnLocation.x;
 
 
     // Fill a square with particles
     particles.clear();
-    for (float x = h; x < 1.0f - h; x = x + c * h)
+    for (float x = xOffset + h; x < xOffset + 1.0f - h; x = x + c * h)
     {
         for (float y = -1.0f + h; y < 1.0f - h; y = y + c * h)
         {
@@ -114,17 +115,12 @@ void scene_structure::display_frame() {
 }
 
 void scene_structure::display_gui() {
-  ImGui::Checkbox("Frame", &gui.display.frame);
-  ImGui::Checkbox("Wireframe", &gui.display.wireframe);
 
   ImGui::SliderFloat("Timer scale", &timer.scale, 0.01f, 4.0f, "%0.2f");
 
   bool const restart = ImGui::Button("Restart");
   if (restart)
       initialize_sph();
-
-  ImGui::Checkbox("Particles", &gui.display.particles);
-  ImGui::Checkbox("Radius", &gui.display.radius);
 
     implicit_surface.gui_update(gui, field_function);
 }

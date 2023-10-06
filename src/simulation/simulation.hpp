@@ -33,6 +33,10 @@ struct sph_parameters_structure
     // Stiffness converting density to pressure
     float stiffness = 8.0f;
 
+    // Init ref point
+    cgp::vec3 spawnLocation= { -25,0,0 };
+
+
 };
 
 
