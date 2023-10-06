@@ -2,10 +2,12 @@
 
 using namespace cgp;
 
-void update_mesh_drawable(cgp::hierarchy_mesh_drawable &hierarchy, penguin_structure& penguin) {
+void update_mesh_drawable(cgp::hierarchy_mesh_drawable &hierarchy,
+                          penguin_structure &penguin) {
   for (int i = 0; i < penguin.mesh_parts.size(); i++) {
     penguin.mesh_parts[i].normal_update();
-    hierarchy[penguin.names[i]].drawable.vbo_position.update(penguin.mesh_parts[i].position.data);
+    hierarchy[penguin.names[i]].drawable.vbo_position.update(
+        penguin.mesh_parts[i].position.data);
     hierarchy[penguin.names[i]].drawable.vbo_normal.update(penguin.mesh_parts[i].normal.data);
   }
 }
@@ -160,7 +162,7 @@ void penguin_ready(cgp::hierarchy_mesh_drawable &hierarchy, penguin_structure& p
   penguin.mesh_parts[8].apply_rotation_to_position({0,1,0},-20*Pi/180);
   penguin.mesh_parts[8].apply_rotation_to_position({0,0,1},-20*Pi/180);
   penguin.mesh_parts[8].apply_translation_to_position({ 0.05f,0.06f,0 });
-  
+
   penguin.mesh_parts[9].apply_rotation_to_position({0,1,0},-10*Pi/180);
   penguin.mesh_parts[9].apply_translation_to_position({ 0.17f,0,0.42f });
 
@@ -182,7 +184,7 @@ void simulate_penguin(cgp::hierarchy_mesh_drawable &hierarchy, penguin_structure
 	vec3 const g = { 0,0,-9.81f };
   penguin.v = (1 - 0.9f * dt) * penguin.v + dt * (penguin.m * g);
   auto new_p = penguin.bounding_min + dt * penguin.v;
-  if (new_p.z < 1 && ((new_p.x > -25+4)||(new_p.x < -25-4) || (new_p.y > 4)||(new_p.y < -4))) {
+  if (new_p.z < 1 && ((new_p.x > -25+4) || (new_p.y > 4)||(new_p.y < -4))) {
     new_p.z = 1;
   }
   vec3 to_move = new_p - penguin.bounding_min;

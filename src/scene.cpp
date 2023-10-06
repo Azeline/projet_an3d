@@ -37,8 +37,6 @@ void scene_structure::initialize() {
   // ***************************************** //
   implicit_surface.set_domain(gui.domain.samples, gui.domain.length);
   implicit_surface.update_field(field_function, gui.isovalue);
-
-// create_penguin_cartoon(hierarchy);
 }
 
 void scene_structure::initialize_sph()
@@ -118,8 +116,15 @@ void scene_structure::display_gui() {
   ImGui::SliderFloat("Timer scale", &timer.scale, 0.01f, 4.0f, "%0.2f");
 
   bool const restart = ImGui::Button("Restart");
-  if (restart)
+  if (restart) {
       initialize_sph();
+      penguin_struct.v = {};
+      penguin_struct.center = {0,0,1.7f};
+      hierarchy["Body1"].transform_local.translation = penguin_struct.center;
+      penguin_struct.bounding_min = { INFINITY,INFINITY,INFINITY };
+      penguin_struct.bounding_max = { -INFINITY,-INFINITY,-INFINITY };
+      get_bounding_box(hierarchy, penguin_struct);
+  }
 
     implicit_surface.gui_update(gui, field_function, penguin_struct);
 }

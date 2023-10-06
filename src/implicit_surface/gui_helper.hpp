@@ -19,8 +19,12 @@ struct gui_parameters {
     cgp::vec3 length = {8, 8, 3};
   } domain;
 
+  struct {
+      int push_power = 50;
+  } penguin_info;
+
   // Isovalue used during the marching cube
   float isovalue = .1f;
 };
 
-void display_gui_implicit_surface(bool &is_update_field, bool &is_update_marching_cube, bool &is_penguin_push, int &push_power, gui_parameters &gui, field_function_structure &field_function);
+void display_gui_implicit_surface(bool &is_update_field, bool &is_update_marching_cube, bool &is_penguin_push, gui_parameters &gui, field_function_structure &field_function);

@@ -22,5 +22,6 @@ class penguin_structure {
 void create_penguin(cgp::hierarchy_mesh_drawable &hierarchy, penguin_structure& penguin);
 void penguin_ready(cgp::hierarchy_mesh_drawable& hierarchy, penguin_structure& penguin);
 void simulate_penguin(cgp::hierarchy_mesh_drawable &hierarchy, penguin_structure& penguin, float dt);
+void get_bounding_box(cgp::hierarchy_mesh_drawable &hierarchy, penguin_structure& penguin);
 
 void create_penguin_cartoon(cgp::hierarchy_mesh_drawable &hierarchy);

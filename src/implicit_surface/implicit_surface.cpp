@@ -99,10 +99,9 @@ void implicit_surface_structure::gui_update(gui_parameters &gui, field_function_
 {
 	bool is_update_marching_cube = false;
 	bool is_update_field = false;
-	int push_power = 50;
 	bool is_penguin_push = false;
 
-    display_gui_implicit_surface(is_update_field, is_update_marching_cube, is_penguin_push, push_power, gui, func);
+    display_gui_implicit_surface(is_update_field, is_update_marching_cube, is_penguin_push, gui, func);
 
 	if (is_update_marching_cube)
 		update_marching_cube(gui.isovalue);
@@ -112,7 +111,7 @@ void implicit_surface_structure::gui_update(gui_parameters &gui, field_function_
 	}
 
 	if (is_penguin_push) {
-		penguin.v += { -push_power,0,0 };
+		penguin.v += { -gui.penguin_info.push_power,0,0 };
 	}
 
 }
