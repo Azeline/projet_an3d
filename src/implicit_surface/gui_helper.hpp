@@ -16,7 +16,7 @@ struct gui_parameters {
 
   struct {  // Elements of the domain
     int samples = 21;
-    cgp::vec3 length = {8, 8, 3};
+    cgp::vec3 length = {8, 8, 4.5f};
   } domain;
 
   struct {

@@ -14,13 +14,13 @@ struct field_function_structure {
   std::vector<particle_element>* particles;
 
   // The parameters of the Perlin noise
-  float noise_magnitude = 0.0f;  // Magnitude of the noise
+  float noise_magnitude = 0.06f;  // Magnitude of the noise
   float noise_offset = 0.0f;     // An offset in the parametric domain (get a
                               // different value of noise with same parameters)
   float noise_scale = 1.0f;        // Scale in the parametric domain
   int noise_octave = 5;            // Maximum number of octave
   float noise_persistance = 0.3f;  // Persistence of Perlin noise
-  float smooth_factor = .2f;
+  float smooth_factor = 1.f;
   int kernel_number = 0;
 
   float wendlandKernel(float r);

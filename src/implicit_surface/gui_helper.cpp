@@ -41,7 +41,7 @@ void display_gui_implicit_surface(bool &is_update_field,
 
     if (ImGui::CollapsingHeader("Marching Cube Function")) {
         is_update_field |= ImGui::SliderFloat(
-                "Smoothing Factor", &field_function.smooth_factor, 0.0f, 1.0f);
+                "Smoothing Factor", &field_function.smooth_factor, 0.0f, 2.0f);
 
         is_update_field |= ImGui::RadioButton("Kernel Wendland", &field_function.kernel_number, 0);
         is_update_field |= ImGui::RadioButton("Kernel Poly 6", &field_function.kernel_number, 1);
