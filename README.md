@@ -10,6 +10,9 @@
   * [Objectif du projet](#objectif-du-projet)
   * [Les différentes parties du projet](#les-différentes-parties-du-projet)
     * [1. Les modèles de la scène](#1-les-modèles-de-la-scène)
+    * [2. L'eau](#2-leau)
+    * [3. Collision](#3-collision)
+* [Vidéos :](#vidéos-)
 <!-- TOC -->
 
 # Setup pre-commit  🏗️
