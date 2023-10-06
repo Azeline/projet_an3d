@@ -13,7 +13,14 @@ void scene_structure::initialize() {
 
   global_frame.initialize_data_on_gpu(mesh_primitive_frame());
 
-  create_penguin(hierarchy);
+  mesh_drawable floor;
+  floor.initialize_data_on_gpu(mesh_load_file_obj("../assets/banquise8.obj"));
+  floor.texture.load_and_initialize_texture_2d_on_gpu("../assets/texture_banquise.png", GL_REPEAT, GL_REPEAT);
+  floor.material.phong.specular = 0.1f;
+  hierarchy.add(floor, "Floor");
+
+  create_penguin(hierarchy, penguin_struct);
+  penguin_ready(penguin_struct);
   // Sphere init
   // ***************************************** //
   initialize_sph();
@@ -66,6 +73,8 @@ void scene_structure::display_frame() {
   // Update the current time
   timer.update();
   float const dt = 0.005f * timer.scale;
+  simulate_penguin(hierarchy, penguin_struct, dt);
+  update_mesh_drawable(hierarchy, penguin_struct);
   hierarchy.update_local_to_global_coordinates();
   implicit_surface.time_update(gui, field_function);
 

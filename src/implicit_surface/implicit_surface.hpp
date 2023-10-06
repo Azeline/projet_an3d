@@ -9,9 +9,10 @@
 
 // Sub-structure that contains the discrete field data
 struct implicit_surface_field_structure {
-	cgp::spatial_domain_grid_3D domain;   // The domain where the discrete field is defined
-	cgp::grid_3D<float> field;            // The grid storing the value of the field
-	cgp::grid_3D<cgp::vec3> gradient;     // The discrete gradient of the field
+  cgp::spatial_domain_grid_3D
+      domain;                 // The domain where the discrete field is defined
+  cgp::grid_3D<float> field;  // The grid storing the value of the field
+  cgp::grid_3D<cgp::vec3> gradient;  // The discrete gradient of the field
 };
 
 // Sub-structure that contains the data of the surface
