@@ -181,10 +181,10 @@ void penguin_ready(cgp::hierarchy_mesh_drawable &hierarchy, penguin_structure& p
 }
 
 void simulate_penguin(cgp::hierarchy_mesh_drawable &hierarchy, penguin_structure& penguin, float dt) {
-	vec3 const g = { 0,0,-9.81f };
+	vec3 g = { 0,0,-9.81f * 2.f };
   penguin.v = (1 - 0.9f * dt) * penguin.v + dt * (penguin.m * g);
   auto new_p = penguin.bounding_min + dt * penguin.v;
-  if (new_p.z < 1 && ((new_p.x > -25+4) || (new_p.y > 4)||(new_p.y < -4))) {
+  if (new_p.z < 1 && ((new_p.x > -25+2) || (new_p.y > 4)||(new_p.y < -4))) {
     new_p.z = 1;
   }
   vec3 to_move = new_p - penguin.bounding_min;

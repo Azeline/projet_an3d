@@ -9,7 +9,7 @@ void scene_structure::initialize() {
                             window);  // Give access to the inputs and window
                                       // global state to the camera controler
   camera_control.set_rotation_axis_z();
-  camera_control.look_at({-10.0f, 30.0f, 10.0f}, {-10.0f, 0.0f, 1.0f});
+  camera_control.look_at({-15.0f, 30.0f, 15.0f}, {-13.0f, 0.0f, 1.0f});
 
   global_frame.initialize_data_on_gpu(mesh_primitive_frame());
 
@@ -73,9 +73,12 @@ void scene_structure::display_frame() {
   timer.update();
   float const dt = 0.005f * timer.scale;
   simulate_penguin(hierarchy, penguin_struct, dt);
+  if (penguin_struct.bounding_max.x < -25+4)
+    hierarchy["Body1"].transform_local.rotation *= rotation_transform::from_axis_angle({ 0,1,0 },-0.1*30*Pi/180);
   hierarchy.update_local_to_global_coordinates();
+
   implicit_surface.time_update(gui, field_function);
-    simulate(dt, particles, sph_parameters, penguin_struct.bounding_min, penguin_struct.bounding_max, penguin_struct.v);
+  simulate(dt, particles, sph_parameters, penguin_struct.bounding_min, penguin_struct.bounding_max, penguin_struct.v);
 
   // Draw the hierarchy as a single mesh
   draw(hierarchy, environment);
