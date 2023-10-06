@@ -4,7 +4,8 @@ using namespace cgp;
 
 void display_gui_implicit_surface(bool &is_update_field,
                                   bool &is_update_marching_cube,
-                                  bool &is_save_obj, gui_parameters &gui,
+                                  bool &is_penguin_push,
+                                  int &push_power, gui_parameters &gui,
                                   field_function_structure &field_function) {
   if (ImGui::CollapsingHeader("Display")) {
     ImGui::Checkbox("Frame", &gui.display.frame);
@@ -53,5 +54,6 @@ void display_gui_implicit_surface(bool &is_update_field,
       ImGui::SliderFloat("Isovalue", &gui.isovalue, 0.0f, .7f);
 
   ImGui::Spacing();
-  is_save_obj = ImGui::Button("Export mesh as obj");
+  is_update_field |= ImGui::SliderInt("Push Power", &push_power, 1, 100);
+  is_penguin_push = ImGui::Button("Push penguin");
 }

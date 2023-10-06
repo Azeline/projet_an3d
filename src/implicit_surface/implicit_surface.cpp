@@ -95,13 +95,14 @@ void implicit_surface_structure::set_domain(int samples, cgp::vec3 const& length
 
 
 
-void implicit_surface_structure::gui_update(gui_parameters &gui, field_function_structure &func)
+void implicit_surface_structure::gui_update(gui_parameters &gui, field_function_structure &func, penguin_structure &penguin)
 {
 	bool is_update_marching_cube = false;
 	bool is_update_field = false;
-	bool is_save_obj = false;
+	int push_power = 50;
+	bool is_penguin_push = false;
 
-    display_gui_implicit_surface(is_update_field, is_update_marching_cube, is_save_obj, gui, func);
+    display_gui_implicit_surface(is_update_field, is_update_marching_cube, is_penguin_push, push_power, gui, func);
 
 	if (is_update_marching_cube)
 		update_marching_cube(gui.isovalue);
@@ -110,10 +111,8 @@ void implicit_surface_structure::gui_update(gui_parameters &gui, field_function_
 		update_field(func, gui.isovalue);
 	}
 
-	if (is_save_obj) {
-		data_param.position.resize(data_param.number_of_vertex);
-		data_param.normal.resize(data_param.number_of_vertex);
-		save_file_obj("mesh.obj", data_param.position, data_param.normal);
+	if (is_penguin_push) {
+		penguin.v += { -push_power,0,0 };
 	}
 
 }

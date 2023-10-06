@@ -42,7 +42,7 @@ struct scene_structure : cgp::scene_inputs_generic {
 
   // The entire hierarchy
   cgp::hierarchy_mesh_drawable hierarchy;
-  std::vector<penguin_structure> penguin_struct = {};
+  penguin_structure penguin_struct;
 
   // Water components
   implicit_surface_structure implicit_surface; // Structures used for the implicit surface (*)

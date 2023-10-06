@@ -3,6 +3,7 @@
 #include "cgp/cgp.hpp"
 #include "field_function.hpp"
 #include "gui_helper.hpp"
+#include "penguin.hpp"
 
 // All the data used for the Implicit Surface
 // ********************************************** //
@@ -53,7 +54,7 @@ struct implicit_surface_structure
 	void set_domain(int samples, cgp::vec3 const& length);
 
 	//   Helper function to update the gui and call the associated update functions
-    void gui_update(gui_parameters &gui, field_function_structure &func);
+    void gui_update(gui_parameters &gui, field_function_structure &func, penguin_structure &penguin);
 
     // Called each delta time to update surface
     void time_update(gui_parameters &gui, field_function_structure &func);

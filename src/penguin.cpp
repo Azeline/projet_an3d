@@ -2,8 +2,31 @@
 
 using namespace cgp;
 
-void create_penguin(cgp::hierarchy_mesh_drawable& hierarchy,
-                    std::vector<penguin_structure>& penguin) {
+void update_mesh_drawable(cgp::hierarchy_mesh_drawable &hierarchy, penguin_structure& penguin) {
+  for (int i = 0; i < penguin.mesh_parts.size(); i++) {
+    penguin.mesh_parts[i].normal_update();
+    hierarchy[penguin.names[i]].drawable.vbo_position.update(penguin.mesh_parts[i].position.data);
+    hierarchy[penguin.names[i]].drawable.vbo_normal.update(penguin.mesh_parts[i].normal.data);
+  }
+}
+
+void get_bounding_box(cgp::hierarchy_mesh_drawable &hierarchy, penguin_structure& penguin) {
+  for (int i = 0; i < penguin.mesh_parts.size(); i++) {
+    auto to_global = penguin.transform_globals[i].matrix() * hierarchy[penguin.names[i]].drawable.model.matrix();
+    for (int j = 0; j < penguin.mesh_parts[i].position.size(); j++) {
+      auto curr_pt = to_global * numarray_stack<float, 4>(penguin.mesh_parts[i].position[j], 1.0);
+      penguin.bounding_min.x = std::min(penguin.bounding_min.x, curr_pt.x);
+      penguin.bounding_min.y = std::min(penguin.bounding_min.y, curr_pt.y);
+      penguin.bounding_min.z = std::min(penguin.bounding_min.z, curr_pt.z);
+
+      penguin.bounding_max.x = std::max(penguin.bounding_max.x, curr_pt.x);
+      penguin.bounding_max.y = std::max(penguin.bounding_max.y, curr_pt.y);
+      penguin.bounding_max.z = std::max(penguin.bounding_max.z, curr_pt.z);
+    }
+  }
+}
+
+void create_penguin(cgp::hierarchy_mesh_drawable &hierarchy, penguin_structure& penguin) {
   mesh_drawable body1;
   mesh_drawable body2;
   mesh_drawable head1;
@@ -93,95 +116,81 @@ void create_penguin(cgp::hierarchy_mesh_drawable& hierarchy,
   hierarchy.add(foot_right, "Foot Right", "Leg Right", { 0,0.07f,0 });
   hierarchy.add(foot_left, "Foot Left", "Leg Left", { 0,0.07f,0 });
 
-  penguin.push_back(penguin_structure("Body1", m_body1, affine_rts(rotation_transform(), { 0,0,1.7f }, 1.0f)));
-  penguin.push_back(penguin_structure("Body2", m_body2, penguin[0].transform_global * affine_rts(rotation_transform(), { -0.25f,0,0.5f }, 1.0f)));
-  penguin.push_back(penguin_structure("Head1", m_head1, penguin[1].transform_global * affine_rts(rotation_transform(), { 0,0,0.12f }, 1.0f)));
-  penguin.push_back(penguin_structure("Head2", m_head2, penguin[2].transform_global * affine_rts(rotation_transform(), { -0.08f,0,0.16f }, 1.0f)));
-  penguin.push_back(penguin_structure("Eye1", m_eye1, penguin[3].transform_global * affine_rts(rotation_transform(), {-0.1f,0.165f,0.05f}, 1.0f)));
-  penguin.push_back(penguin_structure("Eye2", m_eye2, penguin[3].transform_global * affine_rts(rotation_transform(), {-0.1f,-0.165f,0.05f}, 1.0f)));
-  penguin.push_back(penguin_structure("Bec", m_bec, penguin[3].transform_global * affine_rts(rotation_transform(), { -0.1f,0,0 }, 1.0f)));
-  penguin.push_back(penguin_structure("Wing Right", m_wing_right, penguin[0].transform_global * affine_rts(rotation_transform(), { 0,-0.46f,0 }, 1.0f)));
-  penguin.push_back(penguin_structure("Wing Left", m_wing_left, penguin[0].transform_global * affine_rts(rotation_transform(), { 0,0.46f,0 }, 1.0f)));
-  penguin.push_back(penguin_structure("Queue", m_queue, penguin[0].transform_global * affine_rts(rotation_transform(), { 0.25f,0,-0.4f }, 1.0f)));
-  penguin.push_back(penguin_structure("Leg Right", m_leg_right, penguin[0].transform_global * affine_rts(rotation_transform(), { 0,-0.18f,-0.6f }, 1.0f)));
-  penguin.push_back(penguin_structure("Leg Left", m_leg_left, penguin[0].transform_global * affine_rts(rotation_transform(), { 0,0.18f,-0.6f }, 1.0f)));
-  penguin.push_back(penguin_structure("Foot Right", m_foot_right, penguin[10].transform_global * affine_rts(rotation_transform(), { 0,0.07f,0 }, 1.0f)));
-  penguin.push_back(penguin_structure("Foot Left", m_foot_left, penguin[11].transform_global * affine_rts(rotation_transform(), { 0,0.07f,0 }, 1.0f)));
+  std::vector<std::string> tmp_names = { "Body1", "Body2", "Head1", "Head2", "Eye1", "Eye2", "Bec", "Wing Right", "Wing Left", "Queue", "Leg Right", "Leg Left", "Foot Right", "Foot Left" };
+  std::vector<mesh> tmp_mesh = { m_body1, m_body2, m_head1, m_head2, m_eye1, m_eye2, m_bec, m_wing_right, m_wing_left, m_queue, m_leg_right, m_leg_left, m_foot_right, m_foot_left };
+  std::vector<affine_rts> tmp_transform;
+  tmp_transform.push_back(affine_rts(rotation_transform(), { 0,0,1.7f }, 1.0f));
+  tmp_transform.push_back(tmp_transform[0] * affine_rts(rotation_transform(), { -0.25f,0,0.5f }, 1.0f));
+  tmp_transform.push_back(tmp_transform[1] * affine_rts(rotation_transform(), { 0,0,0.12f }, 1.0f));
+  tmp_transform.push_back(tmp_transform[2] * affine_rts(rotation_transform(), { -0.08f,0,0.16f }, 1.0f));
+  tmp_transform.push_back(tmp_transform[3] * affine_rts(rotation_transform(), {-0.1f,0.165f,0.05f}, 1.0f));
+  tmp_transform.push_back(tmp_transform[3] * affine_rts(rotation_transform(), {-0.1f,-0.165f,0.05f}, 1.0f));
+  tmp_transform.push_back(tmp_transform[3] * affine_rts(rotation_transform(), { -0.1f,0,0 }, 1.0f));
+  tmp_transform.push_back(tmp_transform[0] * affine_rts(rotation_transform(), { 0,-0.46f,0 }, 1.0f));
+  tmp_transform.push_back(tmp_transform[0] * affine_rts(rotation_transform(), { 0,0.46f,0 }, 1.0f));
+  tmp_transform.push_back(tmp_transform[0] * affine_rts(rotation_transform(), { 0.25f,0,-0.4f }, 1.0f));
+  tmp_transform.push_back(tmp_transform[0] * affine_rts(rotation_transform(), { 0,-0.18f,-0.6f }, 1.0f));
+  tmp_transform.push_back(tmp_transform[0] * affine_rts(rotation_transform(), { 0,0.18f,-0.6f }, 1.0f));
+  tmp_transform.push_back(tmp_transform[10] * affine_rts(rotation_transform(), { 0,0.07f,0 }, 1.0f));
+  tmp_transform.push_back(tmp_transform[11] * affine_rts(rotation_transform(), { 0,0.07f,0 }, 1.0f));
+  penguin = penguin_structure(tmp_names, tmp_mesh, tmp_transform, { 0,0,1.7f });
+
+  update_mesh_drawable(hierarchy, penguin);
 }
 
-void penguin_ready(std::vector<penguin_structure>& penguin) {
-  penguin[0].mesh_part.apply_rotation_to_position({0,1,0},-50*Pi/180);
+void penguin_ready(cgp::hierarchy_mesh_drawable &hierarchy, penguin_structure& penguin) {
+  penguin.mesh_parts[0].apply_rotation_to_position({0,1,0},-50*Pi/180);
 
-  penguin[1].mesh_part.apply_rotation_to_position({0,1,0},-50*Pi/180);
-  penguin[1].mesh_part.apply_translation_to_position({ -0.25f,0,-0.4f });
+  penguin.mesh_parts[1].apply_rotation_to_position({0,1,0},-50*Pi/180);
+  penguin.mesh_parts[1].apply_translation_to_position({ -0.25f,0,-0.4f });
 
-  penguin[2].mesh_part.apply_rotation_to_position({0,1,0},-10*Pi/180);
-  penguin[2].mesh_part.apply_translation_to_position({ -0.35f,0,-0.4f });
+  penguin.mesh_parts[2].apply_rotation_to_position({0,1,0},-10*Pi/180);
+  penguin.mesh_parts[2].apply_translation_to_position({ -0.35f,0,-0.4f });
 
-  penguin[3].mesh_part.apply_translation_to_position({ -0.45f,0,-0.4f });
-  penguin[4].mesh_part.apply_translation_to_position({ -0.45f,0,-0.4f });
-  penguin[5].mesh_part.apply_translation_to_position({ -0.45f,0,-0.4f });
-  penguin[6].mesh_part.apply_translation_to_position({ -0.45f,0,-0.4f });
+  penguin.mesh_parts[3].apply_translation_to_position({ -0.45f,0,-0.4f });
+  penguin.mesh_parts[4].apply_translation_to_position({ -0.45f,0,-0.4f });
+  penguin.mesh_parts[5].apply_translation_to_position({ -0.45f,0,-0.4f });
+  penguin.mesh_parts[6].apply_translation_to_position({ -0.45f,0,-0.4f });
 
-  penguin[7].mesh_part.apply_rotation_to_position({1,0,0},-45*Pi/180);
-  penguin[7].mesh_part.apply_rotation_to_position({0,1,0},-20*Pi/180);
-  penguin[7].mesh_part.apply_rotation_to_position({0,0,1},20*Pi/180);
-  penguin[7].mesh_part.apply_translation_to_position({ 0.05f,-0.06f,0 });
-  penguin[8].mesh_part.apply_rotation_to_position({1,0,0},45*Pi/180);
-  penguin[8].mesh_part.apply_rotation_to_position({0,1,0},-20*Pi/180);
-  penguin[8].mesh_part.apply_rotation_to_position({0,0,1},-20*Pi/180);
-  penguin[8].mesh_part.apply_translation_to_position({ 0.05f,0.06f,0 });
+  penguin.mesh_parts[7].apply_rotation_to_position({1,0,0},-45*Pi/180);
+  penguin.mesh_parts[7].apply_rotation_to_position({0,1,0},-20*Pi/180);
+  penguin.mesh_parts[7].apply_rotation_to_position({0,0,1},20*Pi/180);
+  penguin.mesh_parts[7].apply_translation_to_position({ 0.05f,-0.06f,0 });
+  penguin.mesh_parts[8].apply_rotation_to_position({1,0,0},45*Pi/180);
+  penguin.mesh_parts[8].apply_rotation_to_position({0,1,0},-20*Pi/180);
+  penguin.mesh_parts[8].apply_rotation_to_position({0,0,1},-20*Pi/180);
+  penguin.mesh_parts[8].apply_translation_to_position({ 0.05f,0.06f,0 });
+  
+  penguin.mesh_parts[9].apply_rotation_to_position({0,1,0},-10*Pi/180);
+  penguin.mesh_parts[9].apply_translation_to_position({ 0.17f,0,0.42f });
 
-  penguin[9].mesh_part.apply_rotation_to_position({0,1,0},-10*Pi/180);
-  penguin[9].mesh_part.apply_translation_to_position({ 0.17f,0,0.42f });
+  penguin.mesh_parts[10].apply_rotation_to_position({0,1,0},-80*Pi/180);
+  penguin.mesh_parts[10].apply_translation_to_position({ 0.65f,0,0.35f });
+  penguin.mesh_parts[11].apply_rotation_to_position({0,1,0},-80*Pi/180);
+  penguin.mesh_parts[11].apply_translation_to_position({ 0.65f,0,0.35f });
 
-  penguin[10].mesh_part.apply_rotation_to_position({0,1,0},-80*Pi/180);
-  penguin[10].mesh_part.apply_translation_to_position({ 0.65f,0,0.35f });
-  penguin[11].mesh_part.apply_rotation_to_position({0,1,0},-80*Pi/180);
-  penguin[11].mesh_part.apply_translation_to_position({ 0.65f,0,0.35f });
+  penguin.mesh_parts[12].apply_rotation_to_position({0,1,0},-150*Pi/180);
+  penguin.mesh_parts[12].apply_translation_to_position({ 0.65f,0,0.38f });
+  penguin.mesh_parts[13].apply_rotation_to_position({0,1,0},-150*Pi/180);
+  penguin.mesh_parts[13].apply_translation_to_position({ 0.65f,0,0.38f });
 
-  penguin[12].mesh_part.apply_rotation_to_position({0,1,0},-150*Pi/180);
-  penguin[12].mesh_part.apply_translation_to_position({ 0.65f,0,0.38f });
-  penguin[13].mesh_part.apply_rotation_to_position({0,1,0},-150*Pi/180);
-  penguin[13].mesh_part.apply_translation_to_position({ 0.65f,0,0.38f });
+  get_bounding_box(hierarchy, penguin);
+  update_mesh_drawable(hierarchy, penguin);
 }
 
-void simulate_penguin(cgp::hierarchy_mesh_drawable &hierarchy, std::vector<penguin_structure>& penguin, float dt) {
+void simulate_penguin(cgp::hierarchy_mesh_drawable &hierarchy, penguin_structure& penguin, float dt) {
 	vec3 const g = { 0,0,-9.81f };
-  vec3 to_move = { INFINITY,INFINITY,INFINITY };
-  for (auto i = 0; i < penguin.size(); ++i) {
-    penguin[i].v = (1 - 0.9f * dt) * penguin[i].v + dt * (penguin[i].m * g);
-    auto to_global = penguin[i].transform_global.matrix() * hierarchy[penguin[i].name].drawable.model.matrix() ;
-    auto curr_min = to_global * numarray_stack<float, 4>(penguin[i].mesh_part.position[0], 1.0);
-    auto next_min = to_global * numarray_stack<float, 4>(penguin[i].mesh_part.position[0], 1.0);
-    for (auto pp : penguin[i].mesh_part.position) {
-      auto new_p = to_global * numarray_stack<float, 4>(pp, 1.0) + numarray_stack<float, 4>(dt * penguin[i].v, 1.0);
-      if (new_p.z < 1 && new_p.z < next_min.z) {
-        new_p.z = 1;
-        curr_min = to_global * numarray_stack<float, 4>(pp, 1.0);
-        next_min = new_p;
-      }
-    }
-    if (next_min.x == curr_min.x && next_min.y == curr_min.y && next_min.z == curr_min.z)
-      next_min =  curr_min + numarray_stack<float, 4>(dt * penguin[i].v, 1.0);
-    auto tmp_move = next_min - curr_min;
-    if (norm(to_move) > norm(vec3(tmp_move.x, tmp_move.y, tmp_move.z)))
-      to_move = vec3(tmp_move.x, tmp_move.y, tmp_move.z);
+  penguin.v = (1 - 0.9f * dt) * penguin.v + dt * (penguin.m * g);
+  auto new_p = penguin.bounding_min + dt * penguin.v;
+  if (new_p.z < 1 && ((new_p.x > -25+4)||(new_p.x < -25-4) || (new_p.y > 4)||(new_p.y < -4))) {
+    new_p.z = 1;
   }
-  for (auto i = 0; i < penguin.size(); ++i)
-    penguin[i].mesh_part.apply_translation_to_position(to_move);
+  vec3 to_move = new_p - penguin.bounding_min;
+  penguin.bounding_min += to_move;
+  penguin.bounding_max += to_move;
+  penguin.center += to_move;
+  hierarchy["Body1"].transform_local.translation = penguin.center;
 }
-
-
-void update_mesh_drawable(cgp::hierarchy_mesh_drawable &hierarchy, std::vector<penguin_structure>& penguin) {
-  for (auto p : penguin) {
-    p.mesh_part.normal_update();
-    hierarchy[p.name].drawable.vbo_position.update(p.mesh_part.position.data);
-    hierarchy[p.name].drawable.vbo_normal.update(p.mesh_part.normal.data);
-  }
-}
-
-
 
 
 void create_penguin_cartoon(cgp::hierarchy_mesh_drawable &hierarchy) {
