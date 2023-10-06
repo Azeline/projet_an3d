@@ -16,15 +16,15 @@ struct gui_parameters {
 
   struct {  // Elements of the domain
     int samples = 21;
-    cgp::vec3 length = {8, 8, 4.5f};
+    cgp::vec3 length = {8, 8, 20.f};
   } domain;
 
   struct {
-      int push_power = 50;
+      int push_power = 40;
   } penguin_info;
 
   // Isovalue used during the marching cube
-  float isovalue = .1f;
+  float isovalue = .7f;
 };
 
 void display_gui_implicit_surface(bool &is_update_field, bool &is_update_marching_cube, bool &is_penguin_push, gui_parameters &gui, field_function_structure &field_function);

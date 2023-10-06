@@ -23,7 +23,7 @@ void display_gui_implicit_surface(bool &is_update_field,
     is_update_field |=
         ImGui::SliderFloat("Ly", &gui.domain.length.y, 0.5f, 10.0f);
     is_update_field |=
-        ImGui::SliderFloat("Lz", &gui.domain.length.z, 0.5f, 10.0f);
+        ImGui::SliderFloat("Lz", &gui.domain.length.z, 0.5f, 30.0f);
   }
 
   if (ImGui::CollapsingHeader("Noise Parameters")) {
@@ -50,7 +50,7 @@ void display_gui_implicit_surface(bool &is_update_field,
 
   ImGui::Spacing();
   is_update_marching_cube |=
-      ImGui::SliderFloat("Isovalue", &gui.isovalue, 0.0f, .7f);
+      ImGui::SliderFloat("Isovalue", &gui.isovalue, 0.0f, 2.f);
 
   ImGui::Spacing();
   ImGui::SliderInt("Push Power", &gui.penguin_info.push_power, 1, 100);

@@ -9,7 +9,7 @@ void scene_structure::initialize() {
                             window);  // Give access to the inputs and window
                                       // global state to the camera controler
   camera_control.set_rotation_axis_z();
-  camera_control.look_at({2.0f, -2.0f, 1.0f}, {0, 0, 0});
+  camera_control.look_at({-10.0f, 30.0f, 10.0f}, {-10.0f, 0.0f, 1.0f});
 
   global_frame.initialize_data_on_gpu(mesh_primitive_frame());
 
@@ -42,7 +42,7 @@ void scene_structure::initialize() {
 void scene_structure::initialize_sph()
 {
     // Initial particle spacing (relative to h)
-    float const c = 0.5f;
+    float const c = 0.3f;
     float const h = sph_parameters.h;
     float xOffset = sph_parameters.spawnLocation.x;
 
@@ -66,7 +66,7 @@ void scene_structure::initialize_sph()
 
 void scene_structure::display_frame() {
   // Set the light to the current position of the camera
-  environment.light = camera_control.camera_model.position();
+  //environment.light = camera_control.camera_model.position();
   if (gui.display.frame) draw(global_frame, environment);
 
   // Update the current time
@@ -75,6 +75,7 @@ void scene_structure::display_frame() {
   simulate_penguin(hierarchy, penguin_struct, dt);
   hierarchy.update_local_to_global_coordinates();
   implicit_surface.time_update(gui, field_function);
+    simulate(dt, particles, sph_parameters, penguin_struct.bounding_min, penguin_struct.bounding_max, penguin_struct.v);
 
   // Draw the hierarchy as a single mesh
   draw(hierarchy, environment);
@@ -82,11 +83,6 @@ void scene_structure::display_frame() {
       draw_wireframe(hierarchy, environment);
       draw_wireframe(implicit_surface.drawable_param.shape, environment);
   }
-
-  // ***************************************** //
-    simulate(dt, particles, sph_parameters);
-
-
     if (gui.display.particles) {
         for (int k = 0; k < particles.size(); ++k) {
             vec3 const& p = particles[k].p;

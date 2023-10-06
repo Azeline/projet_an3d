@@ -40,4 +40,4 @@ struct sph_parameters_structure
 };
 
 
-void simulate(float dt,std::vector<particle_element>& particles, sph_parameters_structure const& sph_parameters);
+void simulate(float dt, std::vector<particle_element> &particles, sph_parameters_structure const &sph_parameters, const cgp::vec3 &b_min, const cgp::vec3 &b_max, const cgp::vec3 &penguin_speed);
