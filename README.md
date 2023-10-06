@@ -60,7 +60,7 @@ Pour cela, nous utilisons un marching cube, pris honteusement dans les exemples 
 Nous l'avons adapté à nos besoins en changeant la fonction évaluée dans le domaine spatiale défini, et en ajoutant différente fonctions de lissages.
 Le rendu de l'eau est en partie personnalisable via l'interface graphique du projet.
 
-<img src="/home/gabriel/CLionProjects/projet_an3d/readme_images/MPinguVsWater.png"/>
+<img src="./readme_images/MPinguVsWater.png"/>
 
 ### 3. Collision
 
