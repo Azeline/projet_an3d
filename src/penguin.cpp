@@ -2,7 +2,8 @@
 
 using namespace cgp;
 
-void create_penguin(cgp::hierarchy_mesh_drawable &hierarchy, std::vector<penguin_structure>& penguin) {
+void create_penguin(cgp::hierarchy_mesh_drawable& hierarchy,
+                    std::vector<penguin_structure>& penguin) {
   mesh_drawable body1;
   mesh_drawable body2;
   mesh_drawable head1;
@@ -130,7 +131,7 @@ void penguin_ready(std::vector<penguin_structure>& penguin) {
   penguin[8].mesh_part.apply_rotation_to_position({0,1,0},-20*Pi/180);
   penguin[8].mesh_part.apply_rotation_to_position({0,0,1},-20*Pi/180);
   penguin[8].mesh_part.apply_translation_to_position({ 0.05f,0.06f,0 });
-  
+
   penguin[9].mesh_part.apply_rotation_to_position({0,1,0},-10*Pi/180);
   penguin[9].mesh_part.apply_translation_to_position({ 0.17f,0,0.42f });
 
@@ -153,11 +154,9 @@ void simulate_penguin(cgp::hierarchy_mesh_drawable &hierarchy, std::vector<pengu
     auto to_global = penguin[i].transform_global.matrix() * hierarchy[penguin[i].name].drawable.model.matrix() ;
     auto curr_min = to_global * numarray_stack<float, 4>(penguin[i].mesh_part.position[0], 1.0);
     auto next_min = to_global * numarray_stack<float, 4>(penguin[i].mesh_part.position[0], 1.0);
-    bool collide = false;
     for (auto pp : penguin[i].mesh_part.position) {
       auto new_p = to_global * numarray_stack<float, 4>(pp, 1.0) + numarray_stack<float, 4>(dt * penguin[i].v, 1.0);
       if (new_p.z < 1 && new_p.z < next_min.z) {
-        collide = true;
         new_p.z = 1;
         curr_min = to_global * numarray_stack<float, 4>(pp, 1.0);
         next_min = new_p;
