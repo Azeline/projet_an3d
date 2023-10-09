@@ -90,7 +90,6 @@ void simulate(float dt, std::vector<particle_element> &particles, sph_parameters
     float const epsilon = 1e-3f;
 
     vec3 pts_arr[6] = {b_min, {b_min.x, b_min.y, b_max.z}, {b_min.x, b_max.y, b_max.z}, b_max, {b_max.x, b_max.y, b_min.z}, {b_max.x, b_min.y, b_min.z}};
-
     for (int k = 0; k < N; ++k) {
         vec3 &p = particles[k].p;
         vec3 &v = particles[k].v;
@@ -105,40 +104,26 @@ void simulate(float dt, std::vector<particle_element> &particles, sph_parameters
             vec3 u_offset = u * dot(u, diag) * norm(diag);
             vec3 w_offset = w * dot(w, diag) * norm(diag);
             vec3 point_on_plane = pts1 + u_offset + w_offset;
-            if (dot(u, point_on_plane) > 0 && dot(w, point_on_plane) > 0 && norm(pts1 - (pts1 + u_offset)) < norm(pts1 - pts2) && norm(pts1 - (pts1 + w_offset)) < norm(pts1 - pts3) && norm(point_on_plane - p) <= r)
-                v = (normalize(v) + 2 * normalize(p - point_on_plane)) * norm(v) + 0.01f * penguin_speed;
+            vec3 normal = normalize(p - point_on_plane);
+            if (dot(u, point_on_plane) > 0 && dot(w, point_on_plane) > 0 && norm(pts1 - (pts1 + u_offset)) < norm(pts1 - pts2) && norm(pts1 - (pts1 + w_offset)) < norm(pts1 - pts3) && norm(point_on_plane - p) <= r){
+                v = (v - dot(normal, v) * 2.0f * normal) * 0.5f;
+                float penguin_prod = dot(penguin_speed, v);
+                if ( penguin_prod > 0)
+                    v += v * penguin_prod * 0.35f;
+            }
         }
 
         float distance_from_center = norm(vec2{-25,0} - p.xy());
         vec2 to_center = normalize(vec2{-25,0} - p.xy());
         if (distance_from_center > 4)
         {
-            vec2 offset = (distance_from_center - 4 + epsilon * rand_interval()) * normalize(to_center);
+            vec2 offset = (distance_from_center - 4 + epsilon * rand_interval()) * to_center;
             p.x += offset.x;
             p.y += offset.y;
-            vec2 new_speed = (normalize(v.xy()) + 2 * normalize(to_center)) * norm(v.xy()) * 0.5f;
+            vec2 new_speed = (v.xy() - 2.0f * dot(to_center, v.xy())* to_center) * 0.5f;
             v.x = new_speed.x;
             v.y = new_speed.y;
         }
-        // small perturbation to avoid alignment
-        /*
-        if (p.y < -4) {
-            p.y = -4 + epsilon * rand_interval();
-            v.y *= -0.5f;
-        }
-        if (p.y > 4) {
-            p.y = 4 - epsilon * rand_interval();
-            v.y *= -0.5f;
-        }
-
-        if (p.x < -29) {
-            p.x = -29 + epsilon * rand_interval();
-            v.x *= -0.5f;
-        }
-        if (p.x > -21) {
-            p.x = -21 - epsilon * rand_interval();
-            v.x *= -0.5f;
-        } */
 
         if (p.z < -1) {
             p.z = -1 + epsilon * rand_interval();
